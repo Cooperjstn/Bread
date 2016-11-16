@@ -29,11 +29,11 @@ public class BreadController {
             users.save(user);
         }
         else if (!PasswordStorage.verifyPassword(user.getPassword(), userFromDb.getPassword())) {
-            return new ResponseEntity<User>(HttpStatus.FORBIDDEN);
+            return new ResponseEntity<>(HttpStatus.FORBIDDEN);
         }
 
         session.setAttribute("name", user.getUsername());
-        return new ResponseEntity<User>(user, HttpStatus.OK);
+        return new ResponseEntity<>(user, HttpStatus.OK);
     }
 
     @RequestMapping(path = "/login", method = RequestMethod.GET)

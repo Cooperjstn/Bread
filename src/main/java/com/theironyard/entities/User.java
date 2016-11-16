@@ -18,12 +18,16 @@ public class User {
     @Column(nullable = false)
     String password;
 
+    @Column(nullable = false)
+    double goal;
+
     public User() {
     }
 
-    public User(String username, String password) {
+    public User(String username, String password, double goal) {
         this.username = username;
         this.password = password;
+        this.goal = goal;
     }
 
     public int getId() {
@@ -48,5 +52,13 @@ public class User {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public double getGoal() {
+        return goal;
+    }
+
+    public void setGoal(double goal) {
+        this.goal = goal;
     }
 }
