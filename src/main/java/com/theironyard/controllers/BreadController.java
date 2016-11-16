@@ -24,21 +24,33 @@ public class BreadController {
     @RequestMapping(path = "/login", method = RequestMethod.POST)
     public ResponseEntity<User> postUser(HttpSession session, @RequestBody User user) throws PasswordStorage.InvalidHashException, PasswordStorage.CannotPerformOperationException {
         User userFromDb = users.findFirstByUsername(user.getUsername());
-        if (userFromDb == null) {
-            user.setPassword(PasswordStorage.createHash(user.getPassword()));
-            users.save(user);
-        }
-        else if (!PasswordStorage.verifyPassword(user.getPassword(), userFromDb.getPassword())) {
+        if (!PasswordStorage.verifyPassword(user.getPassword(), userFromDb.getPassword())) {
             return new ResponseEntity<>(HttpStatus.FORBIDDEN);
         }
-
-        session.setAttribute("name", user.getUsername());
+        session.setAttribute("username", user.getUsername());
         return new ResponseEntity<>(user, HttpStatus.OK);
     }
 
     @RequestMapping(path = "/login", method = RequestMethod.GET)
     public User getUser(HttpSession session) {
-        String name = (String) session.getAttribute("name");
+        String name = (String) session.getAttribute("username");
+        return users.findFirstByUsername(name);
+    }
+
+    @RequestMapping(path = "/signup", method = RequestMethod.POST)
+    public ResponseEntity<User> signUpPost(HttpSession session, @RequestBody User user) throws PasswordStorage.CannotPerformOperationException {
+        User userFromDB = users.findFirstByUsername(user.getUsername());
+        if (userFromDB == null) {
+            user.setPassword(PasswordStorage.createHash(user.getPassword()));
+            users.save(user);
+        }
+        session.setAttribute("username", user.getUsername());
+        return new ResponseEntity<User>(user, HttpStatus.OK);
+    }
+
+    @RequestMapping(path = "/signup", method = RequestMethod.GET)
+    public User signUpGet(HttpSession session) {
+        String name = (String) session.getAttribute("username");
         return users.findFirstByUsername(name);
     }
 }
