@@ -7,7 +7,12 @@ const LoginView = require('./login.js')
 const AppRouter = Backbone.Router.extend({
 
    routes: {
+      "payments": "showPayments",
       "": "showLoginPage"
+   },
+   // FRAME FOR PAYMENTS ROUTE
+   showPayments: function(){
+      ReactDOM.render(<AppViewController routedFrom="PaymentsView"/>, document.querySelector('app-container'))
    },
 
    showLoginPage: function(){
