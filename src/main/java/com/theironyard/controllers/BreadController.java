@@ -52,11 +52,14 @@ public class BreadController {
     @RequestMapping(path = "/login", method = RequestMethod.POST)
     public ResponseEntity<User> postUser(HttpSession session, @RequestBody User user) throws PasswordStorage.InvalidHashException, PasswordStorage.CannotPerformOperationException {
         User userFromDb = users.findFirstByUsername(user.getUsername());
-        if (!PasswordStorage.verifyPassword(user.getPassword(), userFromDb.getPassword())) {
+        if (userFromDb == null) {
+            return new ResponseEntity<User>(HttpStatus.NOT_FOUND);
+        }
+        else if (!PasswordStorage.verifyPassword(user.getPassword(), userFromDb.getPassword())) {
             return new ResponseEntity<>(HttpStatus.FORBIDDEN);
         }
         session.setAttribute("username", user.getUsername());
-        return new ResponseEntity<>(user, HttpStatus.OK);
+        return new ResponseEntity<>(userFromDb, HttpStatus.OK);
     }
 
     @RequestMapping(path = "/login", method = RequestMethod.GET)
@@ -67,13 +70,13 @@ public class BreadController {
 
     @RequestMapping(path = "/signup", method = RequestMethod.POST)
     public ResponseEntity<User> signUpPost(HttpSession session, @RequestBody User user) throws PasswordStorage.CannotPerformOperationException {
-        User validUser = users.findFirstByUsername(user.getUsername());
-        if (validUser == null) {
-            user.setPassword(PasswordStorage.createHash(user.getPassword()));
-            users.save(user);
+        if (user.getUsername() == null || user.getPassword() == null ) {
+            return new ResponseEntity<User>(HttpStatus.NOT_ACCEPTABLE);
         }
-        session.setAttribute("username", user.getUsername());
-        return new ResponseEntity<User>(user, HttpStatus.OK);
+        User userDb = new User (user.getUsername(),PasswordStorage.createHash(user.getPassword()),user.getGoal());
+        users.save(userDb);
+        session.setAttribute("username", userDb.getUsername());
+        return new ResponseEntity<User>(userDb, HttpStatus.OK);
     }
 
     @RequestMapping(path = "/signup", method = RequestMethod.GET)
