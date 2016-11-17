@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpSession;
+import javax.xml.transform.sax.SAXTransformerFactory;
 
 /**
  * Created by Troy on 11/16/16.
@@ -61,7 +62,27 @@ public class BreadController {
     }
 
     @RequestMapping(path = "/payments", method = RequestMethod.POST)
-    public ResponseEntity<Statement> postPayments(HttpSession session, @RequestBody Statement item) {
-        return new ResponseEntity<Statement>(item,HttpStatus.OK);
+    public ResponseEntity<Statement> postPayments(HttpSession session, @RequestBody Statement statement) {
+        String username = (String) session.getAttribute("username");
+        if (username == null) {
+            return new ResponseEntity<Statement>(HttpStatus.FORBIDDEN);
+        }
+        statement.setUser(users.findFirstByUsername(username));
+        return new ResponseEntity<Statement>(statements.save(statement),HttpStatus.OK);
+    }
+
+    @RequestMapping(path = "/statements", method = RequestMethod.GET)
+    public Iterable<Statement> getPayments() {
+        return statements.findAll();
+    }
+
+    @RequestMapping(path = "/savings", method = RequestMethod.POST)
+    public ResponseEntity<Statement> postSavings(HttpSession session, @RequestBody Statement statement) {
+        String username = (String) session.getAttribute("username");
+        if (username == null) {
+            return new ResponseEntity<Statement>(HttpStatus.FORBIDDEN);
+        }
+        statement.setUser(users.findFirstByUsername(username));
+        return new ResponseEntity<Statement>(statements.save(statement), HttpStatus.OK);
     }
 }

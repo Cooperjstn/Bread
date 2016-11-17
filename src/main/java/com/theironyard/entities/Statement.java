@@ -25,7 +25,7 @@ public class Statement {
     double other;
 
     @Column
-    double moneyAfterPayments;
+    double moneyAfterPayments = income - (rent + utilities + other);
 
     @Column
     double savingsAccount;
