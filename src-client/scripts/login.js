@@ -5,10 +5,11 @@ const LoginView = React.createClass({
 
 render: function() {
   return (
-      <div>
+      <div className = "login-container">
          <form className="form-group grid-container">
             <div className="auth-header-container">
                <h1 className="auth-header">Bread</h1>
+               <hr/>
             </div>
 
             <div className="row auth-container-row">
@@ -23,7 +24,7 @@ render: function() {
                </div>
 
                <div className="form-field btn-container col-sm-12 col-md-12">
-                  <input type="submit" className="btn primary auth-button" value="+" />
+                  <input type="submit" className="btn primary auth-button" value="Log in" />
                </div>
             </div>
          </form>
