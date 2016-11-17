@@ -14,9 +14,9 @@ const AppRouter = Backbone.Router.extend({
       ReactDOM.render(<AppViewController routedFrom="LoginView"/>, document.querySelector('#app-container'))
    },
 
-   initialize: function() {
+   initialize: function(){
       Backbone.history.start()
-}
+   }
 })
 
 
