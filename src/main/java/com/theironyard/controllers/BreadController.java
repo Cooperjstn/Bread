@@ -5,6 +5,7 @@ import com.theironyard.entities.User;
 import com.theironyard.services.StatementRepository;
 import com.theironyard.services.UserRepository;
 import com.theironyard.utilities.PasswordStorage;
+import org.h2.tools.Server;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -13,8 +14,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.annotation.PostConstruct;
+import javax.annotation.PreDestroy;
 import javax.servlet.http.HttpSession;
 import javax.xml.transform.sax.SAXTransformerFactory;
+import java.sql.SQLException;
 
 /**
  * Created by Troy on 11/16/16.
@@ -26,6 +30,23 @@ public class BreadController {
 
     @Autowired
     StatementRepository statements;
+
+    Server h2;
+
+    @PostConstruct
+    public void init() throws SQLException {
+        h2 = Server.createWebServer().start();
+        if (statements.count() == 0) {
+            User user = new User("Troy","pass123",1000);
+            users.save(user);
+            statements.save(new Statement(2000,750,150,600,100,100,100,user));
+        }
+    }
+
+    @PreDestroy
+    public void destroy() {
+        h2.stop();
+    }
 
 
     @RequestMapping(path = "/login", method = RequestMethod.POST)

@@ -42,13 +42,11 @@ public class Statement {
     public Statement() {
     }
 
-    public Statement(double income, double rent, double utilities, double other, double moneyAfterPayments,
-                     double savingsAccount, double moneyMarketFund, double mutualFund, User user) {
+    public Statement(double income, double rent, double utilities, double other, double savingsAccount, double moneyMarketFund, double mutualFund, User user) {
         this.income = income;
         this.rent = rent;
         this.utilities = utilities;
         this.other = other;
-        this.moneyAfterPayments = moneyAfterPayments;
         this.savingsAccount = savingsAccount;
         this.moneyMarketFund = moneyMarketFund;
         this.mutualFund = mutualFund;
