@@ -1,5 +1,7 @@
 package com.theironyard.entities;
 
+import org.hibernate.annotations.Formula;
+
 import javax.persistence.*;
 
 /**
@@ -25,7 +27,7 @@ public class Statement {
     double other;
 
     @Column
-    double moneyAfterPayments = income - (rent + utilities + other);
+    double moneyAfterPayments;
 
     @Column
     double savingsAccount;
@@ -36,20 +38,25 @@ public class Statement {
     @Column
     double mutualFund;
 
+    @Column
+    double saved;
+
     @ManyToOne
     User user;
 
     public Statement() {
     }
 
-    public Statement(double income, double rent, double utilities, double other, double savingsAccount, double moneyMarketFund, double mutualFund, User user) {
+    public Statement(double income, double rent, double utilities, double other, double moneyAfterPayments, double savingsAccount, double moneyMarketFund, double mutualFund, double saved, User user) {
         this.income = income;
         this.rent = rent;
         this.utilities = utilities;
         this.other = other;
+        this.moneyAfterPayments = moneyAfterPayments;
         this.savingsAccount = savingsAccount;
         this.moneyMarketFund = moneyMarketFund;
         this.mutualFund = mutualFund;
+        this.saved = saved;
         this.user = user;
     }
 
@@ -131,5 +138,13 @@ public class Statement {
 
     public void setUser(User user) {
         this.user = user;
+    }
+
+    public double getSaved() {
+        return saved;
+    }
+
+    public void setSaved(double saved) {
+        this.saved = saved;
     }
 }

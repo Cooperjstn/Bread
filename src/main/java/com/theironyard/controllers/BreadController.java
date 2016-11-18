@@ -16,6 +16,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
+import javax.persistence.Column;
+import javax.persistence.criteria.CriteriaBuilder;
 import javax.servlet.http.HttpSession;
 import javax.xml.transform.sax.SAXTransformerFactory;
 import java.sql.SQLException;
@@ -39,7 +41,7 @@ public class BreadController {
         if (statements.count() == 0) {
             User user = new User("Troy","pass123",1000);
             users.save(user);
-            statements.save(new Statement(2000,750,150,600,100,100,100,user));
+            statements.save(new Statement(2000,750,150,600,500,100,100,100,300,user));
         }
     }
 
@@ -86,27 +88,38 @@ public class BreadController {
     }
 
     @RequestMapping(path = "/payments", method = RequestMethod.POST)
-    public ResponseEntity<Statement> postPayments(HttpSession session, @RequestBody Statement statement) {
+    public ResponseEntity<Statement> postPayments(HttpSession session, @RequestBody Statement statement, Double moneyAfterPayments) {
         String username = (String) session.getAttribute("username");
         if (username == null) {
             return new ResponseEntity<Statement>(HttpStatus.FORBIDDEN);
         }
         statement.setUser(users.findFirstByUsername(username));
+        moneyAfterPayments = statement.getIncome() - (statement.getRent() + statement.getUtilities() + statement.getOther());
+        statement.setMoneyAfterPayments(moneyAfterPayments);
         return new ResponseEntity<Statement>(statements.save(statement),HttpStatus.OK);
     }
 
     @RequestMapping(path = "/statements", method = RequestMethod.GET)
-    public Iterable<Statement> getPayments() {
+    public Iterable<Statement> getPayments(HttpSession session) throws Exception {
         return statements.findAll();
     }
 
-    @RequestMapping(path = "/savings", method = RequestMethod.POST)
-    public ResponseEntity<Statement> postSavings(HttpSession session, @RequestBody Statement statement) {
+    @RequestMapping(path = "/savings", method = RequestMethod.PUT)
+    public ResponseEntity<Statement> postSavings(HttpSession session, @RequestBody Statement statement, Double saved) {
         String username = (String) session.getAttribute("username");
         if (username == null) {
             return new ResponseEntity<Statement>(HttpStatus.FORBIDDEN);
         }
         statement.setUser(users.findFirstByUsername(username));
+        User user = users.findFirstByUsername(username);
+        Statement statementFromDb = statements.findByUserId(user.getId());
+        saved = statement.getMutualFund() + statement.getMoneyMarketFund() + statement.getSavingsAccount();
+        statement.setIncome(statementFromDb.getIncome());
+        statement.setRent(statementFromDb.getRent());
+        statement.setUtilities(statementFromDb.getUtilities());
+        statement.setOther(statementFromDb.getOther());
+        statement.setMoneyAfterPayments(statementFromDb.getMoneyAfterPayments());
+        statement.setSaved(saved);
         return new ResponseEntity<Statement>(statements.save(statement), HttpStatus.OK);
     }
 }
