@@ -7,8 +7,11 @@ const AppViewController = React.createClass({
          case "LoginView":
             return <LoginView/>
             break;
+
       }
    }
+
+
 })
 
 module.exports = AppViewController

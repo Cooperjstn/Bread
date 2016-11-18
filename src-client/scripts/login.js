@@ -14,12 +14,12 @@ render: function() {
 
             <div className="row auth-container-row">
                <div className="form-field user-container col-sm-12 col-md-12">
-                  <h2 className="user-label"><label>Username</label></h2>
+                  <h4 className="user-label"><label>Username</label></h4>
                   <input className="auth-inputs" type="text" name="name"/>
                </div>
 
                <div className="form-field pass-container col-sm-12 col-md-12">
-                  <h2 className="pass-label"><label>Password </label></h2>
+                  <h4 className="pass-label"><label>Password </label></h4>
                   <input className="auth-inputs" type="password" name="password"/>
                </div>
 
