@@ -51,6 +51,7 @@ public class BreadController {
     }
 
 
+    //login with password verification simple auth
     @RequestMapping(path = "/login", method = RequestMethod.POST)
     public ResponseEntity<User> postUser(HttpSession session, @RequestBody User user) throws PasswordStorage.InvalidHashException, PasswordStorage.CannotPerformOperationException {
         User userFromDb = users.findFirstByUsername(user.getUsername());
@@ -70,6 +71,7 @@ public class BreadController {
         return users.findFirstByUsername(name);
     }
 
+    //If you don't exist signup
     @RequestMapping(path = "/signup", method = RequestMethod.POST)
     public ResponseEntity<User> signUpPost(HttpSession session, @RequestBody User user) throws PasswordStorage.CannotPerformOperationException {
         if (user.getUsername() == null || user.getPassword() == null ) {
@@ -87,6 +89,7 @@ public class BreadController {
         return users.findFirstByUsername(name);
     }
 
+    //In this route you fill in income, rent, utilites, etc. and then it calculates money after payments
     @RequestMapping(path = "/payments", method = RequestMethod.POST)
     public ResponseEntity<Statement> postPayments(HttpSession session, @RequestBody Statement statement, Double moneyAfterPayments) {
         String username = (String) session.getAttribute("username");
@@ -99,11 +102,15 @@ public class BreadController {
         return new ResponseEntity<Statement>(statements.save(statement),HttpStatus.OK);
     }
 
+
+    //Shows all statements but I want it to show a statement for just the person logged in
     @RequestMapping(path = "/statements", method = RequestMethod.GET)
     public Iterable<Statement> getPayments(HttpSession session) throws Exception {
         return statements.findAll();
     }
 
+
+    //A route which takes the statement that was previously filled up in /payments and populates the rest of it
     @RequestMapping(path = "/savings", method = RequestMethod.PUT)
     public ResponseEntity<Statement> postSavings(HttpSession session, @RequestBody Statement statement, Double saved) {
         String username = (String) session.getAttribute("username");
@@ -113,13 +120,34 @@ public class BreadController {
         statement.setUser(users.findFirstByUsername(username));
         User user = users.findFirstByUsername(username);
         Statement statementFromDb = statements.findByUserId(user.getId());
-        saved = statement.getMutualFund() + statement.getMoneyMarketFund() + statement.getSavingsAccount();
+        saved = statementFromDb.getMoneyAfterPayments() + (statement.getMutualFund() + statement.getMutualFund()*0.7) + (statement.getMoneyMarketFund() + statement.getMoneyMarketFund()*0.5) + (statement.getSavingsAccount() + statement.getSavingsAccount()*0.1);
+        statement.setId(statementFromDb.getId());
         statement.setIncome(statementFromDb.getIncome());
         statement.setRent(statementFromDb.getRent());
         statement.setUtilities(statementFromDb.getUtilities());
         statement.setOther(statementFromDb.getOther());
         statement.setMoneyAfterPayments(statementFromDb.getMoneyAfterPayments());
-        statement.setSaved(saved);
+        statement.setSaved(saved + statementFromDb.getSaved());
         return new ResponseEntity<Statement>(statements.save(statement), HttpStatus.OK);
+    }
+
+    //After /savings you will be redirected here to enter new quantities for income, rent, etc...
+    @RequestMapping(path = "/payments", method = RequestMethod.PUT)
+    public ResponseEntity<Statement> putPayments(HttpSession session, @RequestBody Statement statement, Double moneyAfterPayments) {
+        String username = (String) session.getAttribute("username");
+        if (username == null) {
+            return new ResponseEntity<Statement>(HttpStatus.FORBIDDEN);
+        }
+        statement.setUser(users.findFirstByUsername(username));
+        User user = users.findFirstByUsername(username);
+        Statement statementFromDb = statements.findByUserId(user.getId());
+        statement.setId(statementFromDb.getId());
+        moneyAfterPayments = statement.getIncome() - (statement.getRent() + statement.getUtilities() + statement.getOther());
+        statement.setMoneyAfterPayments(moneyAfterPayments);
+        statement.setSavingsAccount(statementFromDb.getSavingsAccount());
+        statement.setMoneyMarketFund(statementFromDb.getMoneyMarketFund());
+        statement.setMutualFund(statementFromDb.getMutualFund());
+        statement.setSaved(statementFromDb.getSaved());
+        return new ResponseEntity<Statement>(statements.save(statement),HttpStatus.OK);
     }
 }
