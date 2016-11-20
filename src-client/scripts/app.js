@@ -1,15 +1,18 @@
 const ReactDOM = require('react-dom');
 const React = require('react')
 const Backbone = require('backbone');
+
 const AppViewController = require('./view-controller.js')
-const SignUp = require('./signup.js')
 const LoginView = require('./login.js')
+const CreateView = require('./create.js')
 
 const AppRouter = Backbone.Router.extend({
-
-   routes: {
-      "signup" : "showSignPage",
-      "" : "showLoginPage"
+  routes: {
+    "create" : "showCreatePage",
+      "" : 'showLoginPage'
+    },
+  showCreatePage: function(){
+    ReactDOM.render(<AppViewController routedFrom="CreateView"/>, document.querySelector('#app-container'))
    },
 
    showLoginPage: function(){

@@ -18,7 +18,7 @@ public class User {
     @Column(nullable = false)
     String password;
 
-    @Column(nullable = false)
+    @Column
     double goal;
 
     public User() {

@@ -1,12 +1,24 @@
 const React = require('react')
 const Backbone = require('backbone')
+const ACTIONS = require('./actions.js')
 
 const LoginView = React.createClass({
+
+_handleUserAuth: function(evt){
+   evt.preventDefault()
+
+ let newUserData = {
+      username: evt.target.username.value,
+      password: evt.target.password.value
+   }
+
+   ACTIONS.authenticateUser(newUserData)
+},
 
 render: function() {
   return (
       <div className = "login-container">
-         <form className="form-group grid-container">
+         <form className="form-group grid-container" onSubmit={this._handleUserAuth}>
             <div className="auth-header-container">
                <h1 className="auth-header">Bread</h1>
                <hr/>
