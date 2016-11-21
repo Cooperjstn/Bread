@@ -12,7 +12,9 @@ body{
 	width: 100%;
 	text-align: center;
 	margin: auto;
-
+	background: url('../images/loginback.jpg');
+	background-size: cover;
+	background-position: center top;
 }
 
 .auth-header {
@@ -42,6 +44,7 @@ body{
 }
 
 .auth-button {
+	background: #ECF0F1;
 	font-size: 35px;
 	width: 45%;
 	height: 50px;

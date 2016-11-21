@@ -1,9 +1,11 @@
 const Backbone = require('backbone')
+const ACTIONS = require('./actions.js')
 
 const STORE = {
    _data:  {
        currentViewSetting : '',
-       currentBread : [],
+       currentData : [],
+       singleListing: {} //Backbone Model instance
     },
 
    setStore: function(storeProp, payload){
@@ -17,7 +19,9 @@ const STORE = {
    },
 
    getStoreData: function(){
+      console.log('get store data', this._data)
       return this._data
+
    },
 
    onChange: function(someFunc){

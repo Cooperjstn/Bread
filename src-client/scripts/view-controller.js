@@ -12,18 +12,17 @@ const AppViewController = React.createClass({
          case "LoginView":
             return <LoginView/>
             break;
-
         case "CreateView":
             return <CreateView/>
             break;
-
         case "SavingsView":
             return <SavingsView/>
             break;
-   }
+         case "PaymentsView":
+            return <PaymentsView/>
+            break;
+         }
  }
-
-
 
 })
 

@@ -4,17 +4,26 @@ const Backbone = require('backbone');
 
 const AppViewController = require('./view-controller.js')
 const LoginView = require('./login.js')
+
 const CreateView = require('./create.js')
+const PaymentsView = require('./payments.js')
 // const SavingsView = require('./savings.js')
 
 const AppRouter = Backbone.Router.extend({
   routes: {
     // "savings": "showSavingsPage",
     "create" : "showCreatePage",
+    "payments-page": "showPayments",
       "" : 'showLoginPage'
     },
+
    showCreatePage: function(){
     ReactDOM.render(<AppViewController routedFrom="CreateView"/>, document.querySelector('#app-container'))
+  },
+
+   // FRAME FOR PAYMENTS ROUTE
+   showPayments: function(){
+      ReactDOM.render(<AppViewController routedFrom="PaymentsView"/>, document.querySelector('app-container'))
    },
 
    showLoginPage: function(){
