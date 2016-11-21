@@ -7,7 +7,10 @@ const AppViewController = React.createClass({
          case "LoginView":
             return <LoginView/>
             break;
-      }
+
+         case "PaymentsView":
+            return <PaymentsView/>
+            break; 
    }
 })
 
