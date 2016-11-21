@@ -33,3 +33,6 @@ src/main/resources/templates/
 
 ###Client###
 node_modules
+
+main.mv.db
+main.trace.db
