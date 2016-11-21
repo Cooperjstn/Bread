@@ -1,4 +1,5 @@
 const Backbone = require('backbone')
+const UserModel = require('./model-user.js')
 
 const ACTIONS = {
   authenticateUser: function(userDataObj){
