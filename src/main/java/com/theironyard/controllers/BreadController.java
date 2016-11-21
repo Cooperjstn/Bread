@@ -36,10 +36,10 @@ public class BreadController {
     Server h2;
 
     @PostConstruct
-    public void init() throws SQLException {
+    public void init() throws SQLException, PasswordStorage.CannotPerformOperationException {
         h2 = Server.createWebServer().start();
         if (statements.count() == 0) {
-            User user = new User("Troy","pass123",1000);
+            User user = new User("Troy",PasswordStorage.createHash("pass123"),1000);
             users.save(user);
             statements.save(new Statement(2000,750,150,600,500,100,100,100,300,user));
         }
@@ -103,10 +103,14 @@ public class BreadController {
     }
 
 
-    //Shows all statements but I want it to show a statement for just the person logged in
+    //Only shows statements from logged in user
     @RequestMapping(path = "/statements", method = RequestMethod.GET)
-    public Iterable<Statement> getPayments(HttpSession session) throws Exception {
-        return statements.findAll();
+    public ResponseEntity<Statement> getStatements(HttpSession session) throws Exception {
+        String username = (String) session.getAttribute("username");
+        if (username == null) {
+            return new ResponseEntity<Statement>(HttpStatus.FORBIDDEN);
+        }
+        return new ResponseEntity<Statement>(statements.findByUserId(users.findFirstByUsername(username).getId()),HttpStatus.OK);
     }
 
 
