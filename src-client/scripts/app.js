@@ -3,11 +3,11 @@ const React = require('react')
 const Backbone = require('backbone');
 const AppViewController = require('./view-controller.js')
 const LoginView = require('./login.js')
-
+const PaymentsView = require('./payments.js')
 const AppRouter = Backbone.Router.extend({
 
    routes: {
-      "payments": "showPayments",
+      "payments-page": "showPayments",
       "": "showLoginPage"
    },
    // FRAME FOR PAYMENTS ROUTE
