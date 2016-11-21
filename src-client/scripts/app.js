@@ -2,8 +2,7 @@ const ReactDOM = require('react-dom');
 const React = require('react')
 const Backbone = require('backbone');
 const AppViewController = require('./view-controller.js')
-const LoginView = require('./login.js')
-const PaymentsView = require('./payments.js')
+
 const AppRouter = Backbone.Router.extend({
 
    routes: {
@@ -12,7 +11,7 @@ const AppRouter = Backbone.Router.extend({
    },
    // FRAME FOR PAYMENTS ROUTE
    showPayments: function(){
-      ReactDOM.render(<AppViewController routedFrom="PaymentsView"/>, document.querySelector('app-container'))
+      ReactDOM.render(<AppViewController routedFrom="PaymentsView"/>, document.querySelector('#app-container'))
    },
 
    showLoginPage: function(){

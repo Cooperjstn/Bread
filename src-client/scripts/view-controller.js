@@ -1,5 +1,6 @@
 const React = require('react')
 const LoginView = require('./login.js')
+const PaymentsView = require('./payments.js')
 
 const AppViewController = React.createClass({
    render: function() {

@@ -19,6 +19,7 @@ _handleUserAuth: function(evt){
 
 render: function() {
   return (
+     
          <div className = "login-container">
             <form className="form-group grid-container" onSubmit={this._handleUserAuth}>
                <div className="auth-header-container">
