@@ -1,5 +1,6 @@
 const Backbone = require('backbone')
 const ACTIONS = require('./actions.js')
+
 const STORE = {
    _data:  {
        currentViewSetting : '',
@@ -15,7 +16,6 @@ const STORE = {
 
       this._data[storeProp] = payload
       Backbone.Events.trigger('storeChange')
-      console.log('payload', payload)
    },
 
    getStoreData: function(){
