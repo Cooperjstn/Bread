@@ -81,7 +81,6 @@ public class BreadController {
         users.save(userDb);
         session.setAttribute("username", userDb.getUsername());
         return new ResponseEntity<User>(userDb, HttpStatus.OK);
-
     }
 
     @RequestMapping(path = "/signup", method = RequestMethod.GET)
