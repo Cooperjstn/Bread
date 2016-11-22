@@ -89,6 +89,12 @@ public class BreadController {
         return users.findFirstByUsername(name);
     }
 
+    @RequestMapping(path = "/logout", method = RequestMethod.POST)
+    public ResponseEntity<User> logoutUser(HttpSession session) {
+        session.invalidate();
+        return new ResponseEntity<User>(HttpStatus.OK);
+    }
+
     //In this route you fill in income, rent, utilites, etc. and then it calculates money after payments
     @RequestMapping(path = "/payments", method = RequestMethod.POST)
     public ResponseEntity<Statement> postPayments(HttpSession session, @RequestBody Statement statement) {
