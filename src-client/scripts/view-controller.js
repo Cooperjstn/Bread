@@ -3,6 +3,8 @@ const STORE = require('./store.js')
 const ACTIONS = require('./actions')
 
 const LoginView = require('./login.js')
+const PaymentsView = require ('/.payments.js')
+
 const CreateView = require('./create.js')
 
 const AppViewController = React.createClass({

@@ -4,6 +4,7 @@ const Backbone = require('backbone');
 
 const AppViewController = require('./view-controller.js')
 const LoginView = require('./login.js')
+const UserModel = require('./model-user.js')
 
 const CreateView = require('./create.js')
 const PaymentsView = require('./payments.js')
@@ -11,7 +12,7 @@ const PaymentsView = require('./payments.js')
 
 const AppRouter = Backbone.Router.extend({
   routes: {
-    // "savings": "showSavingsPage",
+    "savings": "showSavingsPage",
     "create" : "showCreatePage",
     "payments-page": "showPayments",
       "" : 'showLoginPage'
