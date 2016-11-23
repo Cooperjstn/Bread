@@ -9,17 +9,20 @@ import org.h2.tools.Server;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.PostConstruct;
+import javax.servlet.http.HttpServletResponse;
 import javax.annotation.PreDestroy;
 import javax.persistence.Column;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.servlet.http.HttpSession;
 import javax.xml.transform.sax.SAXTransformerFactory;
+import java.io.IOException;
 import java.sql.SQLException;
 
 
@@ -40,7 +43,7 @@ public class BreadController {
     public void init() throws SQLException, PasswordStorage.CannotPerformOperationException {
         h2 = Server.createWebServer().start();
         if (statements.count() == 0) {
-            User user = new User("Troy",PasswordStorage.createHash("pass123"),1000);
+            User user = new User("Troy",PasswordStorage.createHash("pass123"),1000,true);
             users.save(user);
             statements.save(new Statement(2000,750,150,600,500,100,100,100,300,user));
         }
@@ -62,6 +65,9 @@ public class BreadController {
         else if (!PasswordStorage.verifyPassword(user.getPassword(), userFromDb.getPassword())) {
             return new ResponseEntity<>(HttpStatus.FORBIDDEN);
         }
+        if (userFromDb.getUsername().equals("Gary")) {
+            userFromDb.setAdmin(true);
+        }
         session.setAttribute("username", user.getUsername());
         return new ResponseEntity<>(userFromDb, HttpStatus.OK);
     }
@@ -78,10 +84,13 @@ public class BreadController {
         if (user.getUsername() == null || user.getPassword() == null ) {
             return new ResponseEntity<User>(HttpStatus.NOT_ACCEPTABLE);
         }
-        User userDb = new User (user.getUsername(),PasswordStorage.createHash(user.getPassword()),user.getGoal());
-        users.save(userDb);
-        session.setAttribute("username", userDb.getUsername());
-        return new ResponseEntity<User>(userDb, HttpStatus.OK);
+        User userFromDb = new User (user.getUsername(),PasswordStorage.createHash(user.getPassword()),user.getGoal(),user.isAdmin());
+        if (userFromDb.getUsername().equals("Gary")) {
+            userFromDb.setAdmin(true);
+        }
+        users.save(userFromDb);
+        session.setAttribute("username", userFromDb.getUsername());
+        return new ResponseEntity<User>(userFromDb, HttpStatus.OK);
     }
 
     @RequestMapping(path = "/signup", method = RequestMethod.GET)
@@ -98,7 +107,7 @@ public class BreadController {
 
     //In this route you fill in income, rent, utilites, etc. and then it calculates money after payments
     @RequestMapping(path = "/payments", method = RequestMethod.POST)
-    public ResponseEntity<Statement> postPayments(HttpSession session, @RequestBody Statement statement) {
+    public ResponseEntity<Statement> postPayments(HttpSession session, @RequestBody Statement statement,HttpServletResponse response) throws IOException {
         String username = (String) session.getAttribute("username");
         if (username == null) {
             return new ResponseEntity<Statement>(HttpStatus.FORBIDDEN);
@@ -122,7 +131,7 @@ public class BreadController {
 
     //A route which takes the statement that was previously filled up in /payments and populates the rest of it
     @RequestMapping(path = "/savings", method = RequestMethod.PUT)
-    public ResponseEntity<Statement> postSavings(HttpSession session, @RequestBody Statement statement, Double saved) {
+    public ResponseEntity<Statement> postSavings(HttpSession session, @RequestBody Statement statement, Double saved, HttpServletResponse response) throws IOException {
         String username = (String) session.getAttribute("username");
         if (username == null) {
             return new ResponseEntity<Statement>(HttpStatus.FORBIDDEN);
@@ -143,7 +152,7 @@ public class BreadController {
 
     //After /savings you will be redirected here to enter new quantities for income, rent, etc...
     @RequestMapping(path = "/payments", method = RequestMethod.PUT)
-    public ResponseEntity<Statement> putPayments(HttpSession session, @RequestBody Statement statement, Double moneyAfterPayments) {
+    public ResponseEntity<Statement> putPayments(HttpSession session, @RequestBody Statement statement, Double moneyAfterPayments, HttpServletResponse response) throws IOException {
         String username = (String) session.getAttribute("username");
         if (username == null) {
             return new ResponseEntity<Statement>(HttpStatus.FORBIDDEN);
