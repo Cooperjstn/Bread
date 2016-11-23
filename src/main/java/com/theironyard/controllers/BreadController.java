@@ -22,6 +22,7 @@ import javax.servlet.http.HttpSession;
 import javax.xml.transform.sax.SAXTransformerFactory;
 import java.sql.SQLException;
 
+
 /**
  * Created by Troy on 11/16/16.
  */
@@ -89,16 +90,21 @@ public class BreadController {
         return users.findFirstByUsername(name);
     }
 
+    @RequestMapping(path = "/logout", method = RequestMethod.POST)
+    public ResponseEntity<User> logoutUser(HttpSession session) {
+        session.invalidate();
+        return new ResponseEntity<User>(HttpStatus.OK);
+    }
+
     //In this route you fill in income, rent, utilites, etc. and then it calculates money after payments
     @RequestMapping(path = "/payments", method = RequestMethod.POST)
-    public ResponseEntity<Statement> postPayments(HttpSession session, @RequestBody Statement statement, Double moneyAfterPayments) {
+    public ResponseEntity<Statement> postPayments(HttpSession session, @RequestBody Statement statement) {
         String username = (String) session.getAttribute("username");
         if (username == null) {
             return new ResponseEntity<Statement>(HttpStatus.FORBIDDEN);
         }
         statement.setUser(users.findFirstByUsername(username));
-        moneyAfterPayments = statement.getIncome() - (statement.getRent() + statement.getUtilities() + statement.getOther());
-        statement.setMoneyAfterPayments(moneyAfterPayments);
+        statement.setMoneyAfterPayments(statement.getIncome() - (statement.getRent() + statement.getUtilities() + statement.getOther()));
         return new ResponseEntity<Statement>(statements.save(statement),HttpStatus.OK);
     }
 
