@@ -3,11 +3,10 @@ const STORE = require('./store.js')
 const ACTIONS = require('./actions')
 
 const LoginView = require('./login.js')
-<<<<<<< HEAD
 const PaymentsView = require('./payments.js')
-=======
+
 const CreateView = require('./create.js')
->>>>>>> 250e0a5c96f96b4be17b8eec1f60cb7333685f01
+
 
 const AppViewController = React.createClass({
 
