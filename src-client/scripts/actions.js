@@ -4,6 +4,10 @@ const UserModel = require('./model-user.js')
 const PaymentModel = require('./model-payments.js')
 const OopsView = require('./404.js')
 
+const SaveModel = Backbone.Model.extend({})
+
+
+
 const ACTIONS = {
   authenticateUser: function(userDataObj){
      //console.log('user data obj', userDataObj)
@@ -40,10 +44,18 @@ const ACTIONS = {
    payMod.save().then(function(){
       window.location.hash = "savings"
    })
-
-
-
  },
+
+   createNewSavings: function(formData) {
+
+     const savMod = new SaveModel()
+       savMod.set(formData)
+       savMod.url = "/savings"
+
+       savMod.save().then(function(){
+         window.location.hash = "savings"
+       })
+     },
 
     }
 
