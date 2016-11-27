@@ -10,7 +10,7 @@ const ACTIONS = {
      let userMod = new UserModel()
 
      userMod.set(userDataObj)
-     //console.log('user mod', userMod)
+
 
      userMod.save().then(function(serverRes){
         console.log('serverres', serverRes)
