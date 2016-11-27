@@ -5,18 +5,24 @@
 body{
 	font-family: 'Roboto', sans-serif;
 	background: #B2DFDB;
-	// background-image: image(./images/loginback.jpg)
 }
 
 .login-container {
 	width: 100%;
 	text-align: center;
 	margin: auto;
-	background: url('../images/loginback.jpg');
-	background-size: cover;
-	background-position: center top;
+	// background: url('../images/loginback.jpg');
+	// background-size: cover;
+	// background-position: center top;
 }
+.image1 {
+	max-width: 100%;
+    height: auto;
+		-webkit-filter: drop-shadow(5px 5px 5px #222);
+  filter: drop-shadow(5px 5px 5px #222);
 
+
+}
 .auth-header {
 	font-size: 50px;
 	text-align: center;
@@ -49,6 +55,18 @@ body{
 	width: 45%;
 	height: 50px;
 	margin-left: 30%;
+}
+.login-btn {
+	background-color:#52B3D9;
+    border: none;
+    color: white;
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    border-radius: 5px;
+
 }
 .create-soft {
 	border-radius: 5px;
