@@ -19,12 +19,10 @@ const LoginView = React.createClass({
 
    render: function() {
      return (
-
             <div className = "login-container">
                <form className="form-group grid-container" onSubmit={this._handleUserAuth}>
                   <div className="auth-header-container">
-                     <h1 className="auth-header">Bread</h1>
-                     <hr/>
+                     <img className="image1" src="../images/logo2.png" alt="image"></img>
                   </div>
 
                   <div className="form-field user-container col-sm-12 col-md-12">
@@ -38,10 +36,12 @@ const LoginView = React.createClass({
                   </div>
 
                   <div className="form-field btn-container col-sm-12 col-md-12">
-                     <input type="submit" className="btn btn-default" value="Log in" />
+                     <input type="submit" className="login-btn" value="Log in" />
                   </div>
                </form>
             </div>
+
+
         )
       }
    })

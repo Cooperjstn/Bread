@@ -1,5 +1,4 @@
 const React = require('react')
-const ReactDOM = require('react-dom')
 const Backbone = require('backbone')
 const ACTIONS = require('./actions')
 
@@ -58,7 +57,7 @@ const PaymentsView = React.createClass({
                      </div>
 
                      <div className="form-field btn-container col-sm-12 col-md-12">
-                        <input type="submit" className="btn btn-default" value="Log in" />
+                        <input type="submit" className="btn btn-default" value="Oven!" />
                      </div>
                   </div>
                </form>
