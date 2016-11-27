@@ -3,7 +3,8 @@ const STORE = require('./store.js')
 const ACTIONS = require('./actions')
 const OopsView = require('./404.js')
 const LoginView = require('./login.js')
-const PaymentsView = require('./payments.js')
+const PaymentsView = require ('/.payments.js')
+
 
 const CreateView = require('./create.js')
 
