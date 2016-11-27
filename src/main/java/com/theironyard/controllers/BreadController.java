@@ -44,8 +44,17 @@ public class BreadController {
         h2 = Server.createWebServer().start();
         if (statements.count() == 0) {
             User user = new User("Troy",PasswordStorage.createHash("pass123"),1000,true);
+            User user1 = new User("Jordan",PasswordStorage.createHash("pass123"),1000,true);
+            User user2 = new User("Justin",PasswordStorage.createHash("pass123"),1000,true);
+            User user3 = new User("Alice",PasswordStorage.createHash("pass123"),1000,false);
             users.save(user);
+            users.save(user1);
+            users.save(user2);
+            users.save(user3);
             statements.save(new Statement(2000,750,150,600,500,100,100,100,300,user));
+            statements.save(new Statement(2000,750,150,600,500,100,100,100,300,user1));
+            statements.save(new Statement(2000,750,150,600,500,100,100,100,300,user2));
+            statements.save(new Statement(1000,600,200,100,100,30,30,30,90,user3));
         }
     }
 
@@ -65,9 +74,6 @@ public class BreadController {
         else if (!PasswordStorage.verifyPassword(user.getPassword(), userFromDb.getPassword())) {
             return new ResponseEntity<>(HttpStatus.FORBIDDEN);
         }
-        if (userFromDb.getUsername().equals("Gary")) {
-            userFromDb.setAdmin(true);
-        }
         session.setAttribute("username", user.getUsername());
         return new ResponseEntity<>(userFromDb, HttpStatus.OK);
     }
@@ -85,9 +91,6 @@ public class BreadController {
             return new ResponseEntity<User>(HttpStatus.NOT_ACCEPTABLE);
         }
         User userFromDb = new User (user.getUsername(),PasswordStorage.createHash(user.getPassword()),user.getGoal(),user.isAdmin());
-        if (userFromDb.getUsername().equals("Gary")) {
-            userFromDb.setAdmin(true);
-        }
         users.save(userFromDb);
         session.setAttribute("username", userFromDb.getUsername());
         return new ResponseEntity<User>(userFromDb, HttpStatus.OK);
@@ -117,6 +120,17 @@ public class BreadController {
         return new ResponseEntity<Statement>(statements.save(statement),HttpStatus.OK);
     }
 
+    @RequestMapping(path = "/adminstatements", method = RequestMethod.GET)
+    public ResponseEntity<Iterable<Statement>> getAllStatements(HttpSession session) {
+        String username = (String) session.getAttribute("username");
+        if (username == null) {
+            return new ResponseEntity<Iterable<Statement>>(HttpStatus.FORBIDDEN);
+        }
+        if (users.findFirstByUsername(username).isAdmin()) {
+            return new ResponseEntity<Iterable<Statement>>(statements.findAll(),HttpStatus.OK);
+        }
+        return null;
+    }
 
     //Only shows statements from logged in user
     @RequestMapping(path = "/statements", method = RequestMethod.GET)
