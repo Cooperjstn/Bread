@@ -102,6 +102,8 @@ public class BreadController {
         return users.findFirstByUsername(name);
     }
 
+
+    //Logs out current user
     @RequestMapping(path = "/logout", method = RequestMethod.POST)
     public ResponseEntity<User> logoutUser(HttpSession session) {
         session.invalidate();
@@ -120,6 +122,8 @@ public class BreadController {
         return new ResponseEntity<Statement>(statements.save(statement),HttpStatus.OK);
     }
 
+
+    //If the logged in user is an admin then can look at all statements
     @RequestMapping(path = "/adminstatements", method = RequestMethod.GET)
     public ResponseEntity<Iterable<Statement>> getAllStatements(HttpSession session) {
         String username = (String) session.getAttribute("username");
@@ -153,7 +157,7 @@ public class BreadController {
         statement.setUser(users.findFirstByUsername(username));
         User user = users.findFirstByUsername(username);
         Statement statementFromDb = statements.findByUserId(user.getId());
-        saved = statementFromDb.getMoneyAfterPayments() + (statement.getMutualFund() + statement.getMutualFund()*0.7) + (statement.getMoneyMarketFund() + statement.getMoneyMarketFund()*0.5) + (statement.getSavingsAccount() + statement.getSavingsAccount()*0.1);
+        saved = (statement.getMutualFund() + statement.getMutualFund()*0.7) + ((statement.getMoneyMarketFund() + statement.getMoneyMarketFund()*0.5) + (statement.getSavingsAccount() + statement.getSavingsAccount()*0.1));
         statement.setId(statementFromDb.getId());
         statement.setIncome(statementFromDb.getIncome());
         statement.setRent(statementFromDb.getRent());
@@ -161,7 +165,12 @@ public class BreadController {
         statement.setOther(statementFromDb.getOther());
         statement.setMoneyAfterPayments(statementFromDb.getMoneyAfterPayments());
         statement.setSaved(saved + statementFromDb.getSaved());
-        return new ResponseEntity<Statement>(statements.save(statement), HttpStatus.OK);
+        if (statementFromDb.getMoneyAfterPayments() < saved) { //statementFromDb.getMoneyMarketFund() < statement.getMutualFund() || statementFromDb.getMoneyAfterPayments() < statement.getSavingsAccount() || statementFromDb.getMoneyAfterPayments() < statement.getMoneyMarketFund() || statementFromDb.getMoneyAfterPayments() < statement.getSavingsAccount() + statement.getMutualFund() || statementFromDb.getMoneyAfterPayments() < statement.getSavingsAccount() + statement.getMoneyMarketFund() || statementFromDb.getMoneyAfterPayments() < statement.getMoneyMarketFund() + statement.getMutualFund() || statementFromDb.getMoneyAfterPayments() < statement.getMutualFund() + statement.getMoneyMarketFund() + statement.getSavingsAccount()) {
+            return new ResponseEntity<Statement>(HttpStatus.FORBIDDEN);
+        }
+        else {
+            return new ResponseEntity<Statement>(statements.save(statement), HttpStatus.OK);
+        }
     }
 
     //After /savings you will be redirected here to enter new quantities for income, rent, etc...
