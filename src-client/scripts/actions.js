@@ -2,6 +2,8 @@ const Backbone = require('backbone')
 const STORE = require('./store.js')
 const UserModel = require('./model-user.js')
 const PaymentModel = require('./model-payments.js')
+const SaveModel = Backbone.Model.extend({})
+
 
 
 const ACTIONS = {
@@ -38,10 +40,18 @@ const ACTIONS = {
    payMod.save().then(function(){
       window.location.hash = "savings"
    })
-
-
-
  },
+
+   createNewSavings: function(formData) {
+
+     const savMod = new SaveModel()
+       savMod.set(formData)
+       savMod.url = "/savings"
+
+       savMod.save().then(function(){
+         window.location.hash = "savings"
+       })
+     },
 
     }
 
