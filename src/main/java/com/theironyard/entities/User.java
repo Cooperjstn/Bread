@@ -21,13 +21,25 @@ public class User {
     @Column
     double goal;
 
+    @Column
+    boolean isAdmin;
+
     public User() {
     }
 
-    public User(String username, String password, double goal) {
+    public User(String username, String password, double goal, boolean isAdmin) {
         this.username = username;
         this.password = password;
         this.goal = goal;
+        this.isAdmin = isAdmin;
+    }
+
+    public boolean isAdmin() {
+        return isAdmin;
+    }
+
+    public void setAdmin(boolean admin) {
+        isAdmin = admin;
     }
 
     public int getId() {
