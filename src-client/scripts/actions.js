@@ -25,24 +25,24 @@ const ACTIONS = {
    },
 
    createNewUser: function(newUserData){
-     const UserMod = new UserModel()
+     let userMod = new UserModel()
      userMod.set(newUserData)
      userMod.url = '/signup'
 
      userMod.save().then(function(){
-        window.location.hash = "login"
+        window.location.hash = "/payments-page"
      })
   },
 
-  submitPaymentFields: function(newPaymentData){
+  submitNewPayments: function(newPaymentData){
    let payMod = new PaymentModel()
 
    payMod.set(newPaymentData)
    console.log('pay mod', payMod)
-   userMod.url = '/payment'
+   userMod.url = '/payments'
 
    payMod.save().then(function(){
-      window.location.hash = "savings"
+      window.location.hash = "/savings"
    })
  },
 
@@ -53,7 +53,7 @@ const ACTIONS = {
        savMod.url = "/savings"
 
        savMod.save().then(function(){
-         window.location.hash = "savings"
+         window.location.hash = "/savings"
        })
      },
 

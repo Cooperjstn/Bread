@@ -6,18 +6,16 @@ const PaymentsView = React.createClass({
 
    _handlePaymentSubmission: function(evt){
    evt.preventDefault()
-   console.log(this)
+   //console.log(this)
 
    let newPaymentData = {
       income: this.refs.income.value,
       rent: this.refs.rent.value,
       utilities: this.refs.utilities.value,
-      water: this.refs.water.value,
-      electric: this.refs.electric.value,
       other: this.refs.other.value
    }
    console.log(newPaymentData)
-   ACTIONS.submitPaymentFields
+   ACTIONS.submitNewPayments
 },
    render: function() {
       return (
@@ -41,16 +39,6 @@ const PaymentsView = React.createClass({
                         <input className="payment-inputs" ref={'utilities'} type="text" name="name"/>
                      </div>
 
-                     <div className="form-field water-container col-sm-12 col-md-12">
-                        <h2 className="water-label"><label>Water</label></h2>
-                        <input className="payment-inputs" ref={'water'} type="text" name="name"/>
-                     </div>
-
-                     <div className="form-field electric-container col-sm-12 col-md-12">
-                        <h2 className="electric-label"><label>Electric</label></h2>
-                        <input className="payment-inputs" ref={'electric'} type="text" name="name"/>
-                     </div>
-
                      <div className="form-field other-container col-sm-12 col-md-12">
                         <h2 className="other-label"><label>Other</label></h2>
                         <input className="payment-inputs" ref={'other'} type="text" name="name"/>
@@ -61,6 +49,10 @@ const PaymentsView = React.createClass({
                      </div>
                   </div>
                </form>
+
+               <div className="form-field btn-container col-sm-12 col-md-12">
+                  <input type="submit" className="btn btn-default" value="Statements page" />
+               </div>
             </div>
 
       )
