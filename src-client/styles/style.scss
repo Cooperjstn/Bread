@@ -4,16 +4,16 @@
 
 body{
 	font-family: 'Roboto', sans-serif;
-	background: #B2DFDB;
+	background: #BBE8EA;
+	background-image: url("../images/background.jpg");
 }
 
 .login-container {
-	width: 100%;
+	width: 60%;
 	text-align: center;
 	margin: auto;
-	// background: url('../images/loginback.jpg');
-	// background-size: cover;
-	// background-position: center top;
+	background:	rgba(187, 232, 234,0.7)
+
 }
 .image1 {
 	max-width: 100%;
@@ -23,6 +23,18 @@ body{
 
 
 }
+.oops-top {
+width: 65%;
+margin: auto;
+
+}
+.oops-header {
+	max-width: 100%;
+    height: auto;
+		-webkit-filter: drop-shadow(5px 5px 5px #000);
+ filter: drop-shadow(5px 5px 5px #000);
+}
+
 .auth-header {
 	font-size: 50px;
 	text-align: center;

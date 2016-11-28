@@ -44,8 +44,17 @@ public class BreadController {
         h2 = Server.createWebServer().start();
         if (statements.count() == 0) {
             User user = new User("Troy",PasswordStorage.createHash("pass123"),1000,true);
+            User user1 = new User("Jordan",PasswordStorage.createHash("pass123"),1000,true);
+            User user2 = new User("Justin",PasswordStorage.createHash("pass123"),1000,true);
+            User user3 = new User("Alice",PasswordStorage.createHash("pass123"),1000,false);
             users.save(user);
+            users.save(user1);
+            users.save(user2);
+            users.save(user3);
             statements.save(new Statement(2000,750,150,600,500,100,100,100,300,user));
+            statements.save(new Statement(2000,750,150,600,500,100,100,100,300,user1));
+            statements.save(new Statement(2000,750,150,600,500,100,100,100,300,user2));
+            statements.save(new Statement(1000,600,200,100,100,30,30,30,90,user3));
         }
     }
 
@@ -65,9 +74,6 @@ public class BreadController {
         else if (!PasswordStorage.verifyPassword(user.getPassword(), userFromDb.getPassword())) {
             return new ResponseEntity<>(HttpStatus.FORBIDDEN);
         }
-        if (userFromDb.getUsername().equals("Gary")) {
-            userFromDb.setAdmin(true);
-        }
         session.setAttribute("username", user.getUsername());
         return new ResponseEntity<>(userFromDb, HttpStatus.OK);
     }
@@ -85,9 +91,6 @@ public class BreadController {
             return new ResponseEntity<User>(HttpStatus.NOT_ACCEPTABLE);
         }
         User userFromDb = new User (user.getUsername(),PasswordStorage.createHash(user.getPassword()),user.getGoal(),user.isAdmin());
-        if (userFromDb.getUsername().equals("Gary")) {
-            userFromDb.setAdmin(true);
-        }
         users.save(userFromDb);
         session.setAttribute("username", userFromDb.getUsername());
         return new ResponseEntity<User>(userFromDb, HttpStatus.OK);
@@ -99,6 +102,8 @@ public class BreadController {
         return users.findFirstByUsername(name);
     }
 
+
+    //Logs out current user
     @RequestMapping(path = "/logout", method = RequestMethod.POST)
     public ResponseEntity<User> logoutUser(HttpSession session) {
         session.invalidate();
@@ -117,6 +122,19 @@ public class BreadController {
         return new ResponseEntity<Statement>(statements.save(statement),HttpStatus.OK);
     }
 
+
+    //If the logged in user is an admin then can look at all statements
+    @RequestMapping(path = "/adminstatements", method = RequestMethod.GET)
+    public ResponseEntity<Iterable<Statement>> getAllStatements(HttpSession session) {
+        String username = (String) session.getAttribute("username");
+        if (username == null) {
+            return new ResponseEntity<Iterable<Statement>>(HttpStatus.FORBIDDEN);
+        }
+        if (users.findFirstByUsername(username).isAdmin()) {
+            return new ResponseEntity<Iterable<Statement>>(statements.findAll(),HttpStatus.OK);
+        }
+        return null;
+    }
 
     //Only shows statements from logged in user
     @RequestMapping(path = "/statements", method = RequestMethod.GET)
@@ -139,7 +157,7 @@ public class BreadController {
         statement.setUser(users.findFirstByUsername(username));
         User user = users.findFirstByUsername(username);
         Statement statementFromDb = statements.findByUserId(user.getId());
-        saved = statementFromDb.getMoneyAfterPayments() + (statement.getMutualFund() + statement.getMutualFund()*0.7) + (statement.getMoneyMarketFund() + statement.getMoneyMarketFund()*0.5) + (statement.getSavingsAccount() + statement.getSavingsAccount()*0.1);
+        saved = (statement.getMutualFund() + statement.getMutualFund()*0.7) + ((statement.getMoneyMarketFund() + statement.getMoneyMarketFund()*0.5) + (statement.getSavingsAccount() + statement.getSavingsAccount()*0.1));
         statement.setId(statementFromDb.getId());
         statement.setIncome(statementFromDb.getIncome());
         statement.setRent(statementFromDb.getRent());
@@ -147,7 +165,12 @@ public class BreadController {
         statement.setOther(statementFromDb.getOther());
         statement.setMoneyAfterPayments(statementFromDb.getMoneyAfterPayments());
         statement.setSaved(saved + statementFromDb.getSaved());
-        return new ResponseEntity<Statement>(statements.save(statement), HttpStatus.OK);
+        if (statementFromDb.getMoneyAfterPayments() < saved) { //statementFromDb.getMoneyMarketFund() < statement.getMutualFund() || statementFromDb.getMoneyAfterPayments() < statement.getSavingsAccount() || statementFromDb.getMoneyAfterPayments() < statement.getMoneyMarketFund() || statementFromDb.getMoneyAfterPayments() < statement.getSavingsAccount() + statement.getMutualFund() || statementFromDb.getMoneyAfterPayments() < statement.getSavingsAccount() + statement.getMoneyMarketFund() || statementFromDb.getMoneyAfterPayments() < statement.getMoneyMarketFund() + statement.getMutualFund() || statementFromDb.getMoneyAfterPayments() < statement.getMutualFund() + statement.getMoneyMarketFund() + statement.getSavingsAccount()) {
+            return new ResponseEntity<Statement>(HttpStatus.FORBIDDEN);
+        }
+        else {
+            return new ResponseEntity<Statement>(statements.save(statement), HttpStatus.OK);
+        }
     }
 
     //After /savings you will be redirected here to enter new quantities for income, rent, etc...
