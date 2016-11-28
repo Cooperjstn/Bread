@@ -5,9 +5,8 @@ const OopsView = React.createClass({
 
   render: function() {
     return (
-      <div>
-         <h1 className="oops-header text-center">Something's wrong!</h1>
-         <h2 className="oops-comment text-center">Either your username or password was incorrect</h2>
+      <div className = "oops-top">
+      <img className="oops-header" src="../images/404.png" alt="image"></img>
       </div>
     )
   }
