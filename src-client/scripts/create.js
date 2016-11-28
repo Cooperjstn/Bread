@@ -13,7 +13,7 @@ const CreateView = React.createClass({
         let newUserData = {
            username: this.refs.username.value,
            password: this.refs.password.value,
-           goals: this.refs.goals.value
+           goal: this.refs.goal.value
         }
       ACTIONS.createNewUser(newUserData)
 
@@ -30,7 +30,7 @@ const CreateView = React.createClass({
           <p>Password:</p>
           <input className="create-text" name="password" ref={ 'password' }></input>
           <p>Financial Goal:</p>
-          <input className="create-text" name="goal" ref={ 'goals' }></input>
+          <input className="create-text" name="goal" ref={ 'goal' }></input>
           <br></br>
           <div>
           <button className='button create-btn'>Submit</button>
