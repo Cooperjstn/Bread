@@ -19,28 +19,39 @@ const LoginView = React.createClass({
 
    render: function() {
      return (
-            <div className = "login-container">
-               <form className="form-group grid-container" onSubmit={this._handleUserAuth}>
-                  <div className="auth-header-container">
+        <div className = "login-container">
+          <div className="log-left">
+            <form className="form-group grid-container" onSubmit={this._handleUserAuth}>
+                  <div className="form-fields-login">
                      <img className="image1" src="../images/logo2.png" alt="image"></img>
                   </div>
 
-                  <div className="form-field user-container col-sm-12 col-md-12">
+                  <div className="form-fields-login">
                      <h2 className="user-label"><label>Username</label></h2>
                      <input className="auth-inputs" ref={'username'} type="text" name="name"/>
                   </div>
 
-                  <div className="form-field pass-container col-sm-12 col-md-12">
-                     <h2 className="pass-label"><label>Password </label></h2>
+                  <div className="form-fields-login">
+                     <h2 className="pass-label"><label>Password</label></h2>
                      <input className="auth-inputs" ref={'password'} type="password" name="password"/>
                   </div>
 
-                  <div className="form-field btn-container col-sm-12 col-md-12">
-                     <input type="submit" className="login-btn" value="Log in" />
+                  <div className="form-fields-login">
+                     <input type="submit" className="login-btn" value="Log in"/>
                   </div>
                </form>
-            </div>
+              </div>
 
+              <div className= "log-right">
+               <div className= "create-pro">
+                 <button className="button-create"><span>Create Profile</span></button>
+               </div>
+
+               <div className= "create-about">
+                 <button className="button-about"><span>About Our Bread</span></button>
+               </div>
+               </div>
+               </div>
 
         )
       }

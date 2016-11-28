@@ -13,6 +13,8 @@ body{
 	text-align: center;
 	margin: auto;
 	background:	rgba(187, 232, 234,0.7)
+	border-radius: 10px;
+}
 
 }
 .image1 {
@@ -59,6 +61,7 @@ margin: auto;
 	border-bottom: #c9c9c9;
 	transition: border 0.3s;
 	border-radius: 5px;
+	width: auto;
 }
 
 .auth-button {
@@ -69,7 +72,7 @@ margin: auto;
 	margin-left: 30%;
 }
 .login-btn {
-	background-color:#52B3D9;
+	background: #8481d8;
     border: none;
     color: white;
     padding: 15px 32px;
@@ -78,7 +81,92 @@ margin: auto;
     display: inline-block;
     font-size: 16px;
     border-radius: 5px;
+		margin-top: 10px;
 
+}
+
+.button-create {
+  display: inline-block;
+	border-radius: 4px;
+  background-color: #F5AB35;
+  border: none;
+  color: #FFFFFF;
+  text-align: center;
+  font-size: 16px;
+  padding: 20px;
+  width: 200px;
+  transition: all 0.5s;
+  cursor: pointer;
+	margin-top: 10px;
+	display: inline-block;
+  vertical-align: top;
+  width: 75%;
+
+}
+
+.button-create span {
+  cursor: pointer;
+  display: inline-block;
+  position: relative;
+  transition: 0.5s;
+}
+
+.button-create span:after {
+  content: '»';
+  position: absolute;
+  opacity: 0;
+  top: 0;
+  right: -20px;
+  transition: 0.5s;
+}
+
+.button-create:hover span {
+  padding-right: 25px;
+}
+
+.button-create:hover span:after {
+  opacity: 1;
+  right: 0;
+}
+.button-about {
+  display: inline-block;
+	border-radius: 4px;
+  background-color: #CF000F;
+  border: none;
+  color: #FFFFFF;
+  text-align: center;
+  font-size: 16px;
+  padding: 20px;
+  width: 200px;
+  transition: all 0.5s;
+  cursor: pointer;
+	margin-top: 10px;
+
+}
+
+.button-about span {
+  cursor: pointer;
+  display: inline-block;
+  position: relative;
+  transition: 0.5s;
+}
+
+.button-about span:after {
+  content: '»';
+  position: absolute;
+  opacity: 0;
+  top: 0;
+  right: -20px;
+  transition: 0.5s;
+}
+
+.button-about:hover span {
+  padding-right: 25px;
+}
+
+.button-about:hover span:after {
+  opacity: 1;
+  right: 0;
 }
 .create-soft {
 	border-radius: 5px;
