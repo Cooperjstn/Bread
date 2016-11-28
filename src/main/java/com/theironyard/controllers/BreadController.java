@@ -74,6 +74,9 @@ public class BreadController {
         else if (!PasswordStorage.verifyPassword(user.getPassword(), userFromDb.getPassword())) {
             return new ResponseEntity<>(HttpStatus.FORBIDDEN);
         }
+        if (user.getUsername() == null || user.getPassword() == null ) {
+            return new ResponseEntity<User>(HttpStatus.NOT_ACCEPTABLE);
+        }
         session.setAttribute("username", user.getUsername());
         return new ResponseEntity<>(userFromDb, HttpStatus.OK);
     }
