@@ -130,7 +130,10 @@ public class BreadController {
         if (username == null) {
             return new ResponseEntity<Iterable<Statement>>(HttpStatus.FORBIDDEN);
         }
-        if (users.findFirstByUsername(username).isAdmin()) {
+        if (!users.findFirstByUsername(username).isAdmin()) {
+            return new ResponseEntity<Iterable<Statement>>(HttpStatus.FORBIDDEN);
+        }
+        else if (users.findFirstByUsername(username).isAdmin()) {
             return new ResponseEntity<Iterable<Statement>>(statements.findAll(),HttpStatus.OK);
         }
         return null;
@@ -142,6 +145,9 @@ public class BreadController {
         String username = (String) session.getAttribute("username");
         if (username == null) {
             return new ResponseEntity<Statement>(HttpStatus.FORBIDDEN);
+        }
+        if (statements.findByUserId(users.findFirstByUsername(username).getId()) == null) {
+            return new ResponseEntity<Statement>(HttpStatus.NO_CONTENT);
         }
         return new ResponseEntity<Statement>(statements.findByUserId(users.findFirstByUsername(username).getId()),HttpStatus.OK);
     }
