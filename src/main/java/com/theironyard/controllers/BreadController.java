@@ -193,7 +193,7 @@ public class BreadController {
         return new ResponseEntity<Statement>(statements.save(statement),HttpStatus.OK);
     }
 
-    //If a user wants to create new statements this route will delete their current statement...issues!!!
+    //If a user wants to create new statements this route will delete their current statement
     @RequestMapping(path = "/delete-statement", method = RequestMethod.POST)
     public void deleteStatements(HttpSession session, @RequestBody Statement statement, HttpServletResponse response) throws Exception {
         String username = (String) session.getAttribute("username");
