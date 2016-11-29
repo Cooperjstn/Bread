@@ -149,9 +149,6 @@ public class BreadController {
         if (username == null) {
             return new ResponseEntity<Statement>(HttpStatus.FORBIDDEN);
         }
-        if (statements.findByUserId(users.findFirstByUsername(username).getId()) == null) {
-            return new ResponseEntity<Statement>(HttpStatus.NO_CONTENT);
-        }
         return new ResponseEntity<Statement>(statements.findByUserId(users.findFirstByUsername(username).getId()),HttpStatus.OK);
     }
 
