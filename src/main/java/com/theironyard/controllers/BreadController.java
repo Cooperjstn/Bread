@@ -124,7 +124,7 @@ public class BreadController {
 
 
     //If the logged in user is an admin then can look at all statements
-    @RequestMapping(path = "/adminstatements", method = RequestMethod.GET)
+    @RequestMapping(path = "/admin-statements", method = RequestMethod.GET)
     public ResponseEntity<Iterable<Statement>> getAllStatements(HttpSession session) {
         String username = (String) session.getAttribute("username");
         if (username == null) {
@@ -174,7 +174,7 @@ public class BreadController {
     }
 
     //After /savings you will be redirected here to enter new quantities for income, rent, etc...
-    @RequestMapping(path = "/payments", method = RequestMethod.PUT)
+    @RequestMapping(path = "/next-payments", method = RequestMethod.PUT)
     public ResponseEntity<Statement> putPayments(HttpSession session, @RequestBody Statement statement, Double moneyAfterPayments, HttpServletResponse response) throws IOException {
         String username = (String) session.getAttribute("username");
         if (username == null) {
@@ -191,5 +191,16 @@ public class BreadController {
         statement.setMutualFund(statementFromDb.getMutualFund());
         statement.setSaved(statementFromDb.getSaved());
         return new ResponseEntity<Statement>(statements.save(statement),HttpStatus.OK);
+    }
+
+    //If a user wants to create new statements this route will delete their current statement
+    @RequestMapping(path = "/delete-statement", method = RequestMethod.POST)
+    public void deleteStatements(HttpSession session, @RequestBody Statement statement, HttpServletResponse response) throws Exception {
+        String username = (String) session.getAttribute("username");
+        if (username == null) {
+            throw new Exception("Forbidden");
+        }
+        statement.setUser(users.findFirstByUsername(username));
+        statements.delete(statement);
     }
 }

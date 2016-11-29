@@ -22,7 +22,7 @@ const LoginView = React.createClass({
         <div className = "login-container">
           <div className="log-left">
             <form className="form-group grid-container" onSubmit={this._handleUserAuth}>
-                  <div className="form-fields-login">
+                  <div className="auth-header-container">
                      <img className="image1" src="../images/logo2.png" alt="image"></img>
                   </div>
 
@@ -36,7 +36,7 @@ const LoginView = React.createClass({
                      <input className="auth-inputs" ref={'password'} type="password" name="password"/>
                   </div>
 
-                  <div className="form-fields-login">
+                  <div className="form-fields-btn">
                      <input type="submit" className="login-btn" value="Log in"/>
                   </div>
                </form>
@@ -44,7 +44,7 @@ const LoginView = React.createClass({
 
               <div className= "log-right">
                <div className= "create-pro">
-                 <button className="button-create"><span>Create Profile</span></button>
+                 <a href="#create"><button className="button-create"><span>Create Profile</span></button></a>
                </div>
 
                <div className= "create-about">
