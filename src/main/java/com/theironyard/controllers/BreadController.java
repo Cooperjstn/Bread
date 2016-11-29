@@ -51,10 +51,10 @@ public class BreadController {
             users.save(user1);
             users.save(user2);
             users.save(user3);
-            statements.save(new Statement(2000,750,150,600,500,100,100,100,300,user));
-            statements.save(new Statement(2000,750,150,600,500,100,100,100,300,user1));
-            statements.save(new Statement(2000,750,150,600,500,100,100,100,300,user2));
-            statements.save(new Statement(1000,600,200,100,100,30,30,30,90,user3));
+            statements.save(new Statement("Vacation",2000,750,150,600,500,100,100,100,300,user));
+            statements.save(new Statement("College",2000,750,150,600,500,100,100,100,300,user1));
+            statements.save(new Statement("New Home",2000,750,150,600,500,100,100,100,300,user2));
+            statements.save(new Statement("New Car",1000,600,200,100,100,30,30,30,90,user3));
         }
     }
 
@@ -165,6 +165,7 @@ public class BreadController {
         Statement statementFromDb = statements.findByUserId(user.getId());
         saved = (statement.getMutualFund() + statement.getMutualFund()*0.7) + ((statement.getMoneyMarketFund() + statement.getMoneyMarketFund()*0.5) + (statement.getSavingsAccount() + statement.getSavingsAccount()*0.1));
         statement.setId(statementFromDb.getId());
+        statement.setName(statementFromDb.getName());
         statement.setIncome(statementFromDb.getIncome());
         statement.setRent(statementFromDb.getRent());
         statement.setUtilities(statementFromDb.getUtilities());
@@ -190,6 +191,7 @@ public class BreadController {
         User user = users.findFirstByUsername(username);
         Statement statementFromDb = statements.findByUserId(user.getId());
         statement.setId(statementFromDb.getId());
+        statement.setName(statementFromDb.getName());
         moneyAfterPayments = statement.getIncome() - (statement.getRent() + statement.getUtilities() + statement.getOther());
         statement.setMoneyAfterPayments(moneyAfterPayments);
         statement.setSavingsAccount(statementFromDb.getSavingsAccount());

@@ -14,6 +14,9 @@ public class Statement {
     @GeneratedValue
     int id;
 
+    @Column(nullable = false)
+    String name;
+
     @Column
     double income;
 
@@ -47,7 +50,8 @@ public class Statement {
     public Statement() {
     }
 
-    public Statement(double income, double rent, double utilities, double other, double moneyAfterPayments, double savingsAccount, double moneyMarketFund, double mutualFund, double saved, User user) {
+    public Statement(String name, double income, double rent, double utilities, double other, double moneyAfterPayments, double savingsAccount, double moneyMarketFund, double mutualFund, double saved, User user) {
+        this.name = name;
         this.income = income;
         this.rent = rent;
         this.utilities = utilities;
@@ -58,6 +62,14 @@ public class Statement {
         this.mutualFund = mutualFund;
         this.saved = saved;
         this.user = user;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public int getId() {
