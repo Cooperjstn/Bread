@@ -44,13 +44,16 @@ public class Statement {
     @Column
     double saved;
 
+    @Column
+    boolean metGoal;
+
     @ManyToOne
     User user;
 
     public Statement() {
     }
 
-    public Statement(String name, double income, double rent, double utilities, double other, double moneyAfterPayments, double savingsAccount, double moneyMarketFund, double mutualFund, double saved, User user) {
+    public Statement(String name, double income, double rent, double utilities, double other, double moneyAfterPayments, double savingsAccount, double moneyMarketFund, double mutualFund, double saved, boolean metGoal, User user) {
         this.name = name;
         this.income = income;
         this.rent = rent;
@@ -61,7 +64,16 @@ public class Statement {
         this.moneyMarketFund = moneyMarketFund;
         this.mutualFund = mutualFund;
         this.saved = saved;
+        this.metGoal = metGoal;
         this.user = user;
+    }
+
+    public boolean isMetGoal() {
+        return metGoal;
+    }
+
+    public void setMetGoal(boolean metGoal) {
+        this.metGoal = metGoal;
     }
 
     public String getName() {

@@ -12,4 +12,6 @@ import java.util.List;
  */
 public interface StatementRepository extends CrudRepository<Statement,Integer> {
     List<Statement> findByUserId(int id);
+    List<Statement> findByName(String name);
+    List<Statement> findByOrderByDateDesc();
 }
