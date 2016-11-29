@@ -24,6 +24,7 @@ import javax.servlet.http.HttpSession;
 import javax.xml.transform.sax.SAXTransformerFactory;
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.List;
 
 
 /**
@@ -144,12 +145,12 @@ public class BreadController {
 
     //Only shows statements from logged in user
     @RequestMapping(path = "/statements", method = RequestMethod.GET)
-    public ResponseEntity<Statement> getStatements(HttpSession session) throws Exception {
+    public ResponseEntity<List<Statement>> getStatements(HttpSession session) throws Exception {
         String username = (String) session.getAttribute("username");
         if (username == null) {
-            return new ResponseEntity<Statement>(HttpStatus.FORBIDDEN);
+            return new ResponseEntity<>(HttpStatus.FORBIDDEN);
         }
-        return new ResponseEntity<Statement>(statements.findByUserId(users.findFirstByUsername(username).getId()),HttpStatus.OK);
+        return new ResponseEntity<>(statements.findByUserId(users.findFirstByUsername(username).getId()), HttpStatus.OK);
     }
 
 
@@ -160,11 +161,10 @@ public class BreadController {
         if (username == null) {
             return new ResponseEntity<Statement>(HttpStatus.FORBIDDEN);
         }
-        statement.setUser(users.findFirstByUsername(username));
         User user = users.findFirstByUsername(username);
-        Statement statementFromDb = statements.findByUserId(user.getId());
-        saved = (statement.getMutualFund() + statement.getMutualFund()*0.7) + ((statement.getMoneyMarketFund() + statement.getMoneyMarketFund()*0.5) + (statement.getSavingsAccount() + statement.getSavingsAccount()*0.1));
-        statement.setId(statementFromDb.getId());
+        statement.setUser(user);
+        Statement statementFromDb = statements.findOne(statement.getId());
+        saved = (statement.getMutualFund() + statement.getMutualFund()*0.01) + ((statement.getMoneyMarketFund() + statement.getMoneyMarketFund()*0.005) + (statement.getSavingsAccount() + statement.getSavingsAccount()*0.002));
         statement.setName(statementFromDb.getName());
         statement.setIncome(statementFromDb.getIncome());
         statement.setRent(statementFromDb.getRent());
@@ -188,9 +188,7 @@ public class BreadController {
             return new ResponseEntity<Statement>(HttpStatus.FORBIDDEN);
         }
         statement.setUser(users.findFirstByUsername(username));
-        User user = users.findFirstByUsername(username);
-        Statement statementFromDb = statements.findByUserId(user.getId());
-        statement.setId(statementFromDb.getId());
+        Statement statementFromDb = statements.findOne(statement.getId());
         statement.setName(statementFromDb.getName());
         moneyAfterPayments = statement.getIncome() - (statement.getRent() + statement.getUtilities() + statement.getOther());
         statement.setMoneyAfterPayments(moneyAfterPayments);

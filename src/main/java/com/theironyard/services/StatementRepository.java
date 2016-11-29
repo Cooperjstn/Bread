@@ -11,5 +11,5 @@ import java.util.List;
  * Created by Troy on 11/17/16.
  */
 public interface StatementRepository extends CrudRepository<Statement,Integer> {
-    Statement findByUserId(int id);
+    List<Statement> findByUserId(int id);
 }
