@@ -21,6 +21,8 @@ const AppViewController = React.createClass({
 
    componentDidMount: function(){
       let self = this
+      ACTIONS.fetchUserStatements()
+
       STORE.onChange(function(){
 
          let updatedState = STORE.getStoreData()
@@ -45,7 +47,7 @@ const AppViewController = React.createClass({
             break;
 
         case "SavingsView":
-            return <SavingsView currentBudgetRecord = {this.state.currentBudgetStatement}/>
+            return <SavingsView statements = {this.state.userStatements}/>
             break;
 
          case "PaymentsView":
