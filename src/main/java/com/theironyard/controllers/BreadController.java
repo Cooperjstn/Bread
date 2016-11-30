@@ -1,12 +1,22 @@
 package com.theironyard.controllers;
 
+import com.fasterxml.jackson.core.JsonGenerator;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonSerializer;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializerProvider;
+import com.fasterxml.jackson.databind.util.JSONPObject;
 import com.fasterxml.jackson.databind.util.JSONWrappedObject;
 import com.theironyard.entities.Statement;
 import com.theironyard.entities.User;
 import com.theironyard.services.StatementRepository;
 import com.theironyard.services.UserRepository;
 import com.theironyard.utilities.PasswordStorage;
+import net.minidev.json.JSONArray;
+import net.minidev.json.JSONObject;
+import org.h2.store.fs.FileUtils;
 import org.h2.tools.Server;
+import org.json.CDL;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -23,9 +33,14 @@ import javax.persistence.Column;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.servlet.http.HttpSession;
 import javax.xml.transform.sax.SAXTransformerFactory;
+import java.io.DataInput;
+import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Scanner;
 
 
 /**
@@ -144,7 +159,7 @@ public class BreadController {
 
     //Only shows statements from logged in user
     @RequestMapping(path = "/statements", method = RequestMethod.GET)
-    public ResponseEntity<List<Statement>> getStatements(HttpSession session, String name) throws Exception {
+    public ResponseEntity<List<Statement>> getStatements(HttpSession session,Statement statement) throws Exception {
         String username = (String) session.getAttribute("username");
         if (username == null) {
             return new ResponseEntity<>(HttpStatus.FORBIDDEN);
@@ -206,5 +221,48 @@ public class BreadController {
         }
         statement.setUser(users.findFirstByUsername(username));
         statements.delete(statement);
+    }
+
+
+    //Have the import working. Kind of clunky of course you have to name the csv file statement and has to be in a specific format
+    @RequestMapping(path = "/csv-import", method = RequestMethod.POST)
+    public ResponseEntity<Statement> csvImport(HttpSession session,String name, String income, String rent, String utilities, String other, String moneyAfterPayments, String savingsAccount, String moneyMarketFund, String mutualFund, String saved) throws IOException {
+        String username = (String) session.getAttribute("username");
+        if (username == null) {
+            return new ResponseEntity<Statement>(HttpStatus.FORBIDDEN);
+        }
+        File f = new File("statement.csv");
+        Scanner fileScanner = new Scanner(f);
+        fileScanner.nextLine();
+        while(fileScanner.hasNext()) {
+            String line = fileScanner.nextLine();
+            String[] columns = line.split(",");
+            name = columns[0];
+            income = columns[1];
+            rent = columns[2];
+            utilities = columns[3];
+            other = columns[4];
+            moneyAfterPayments = columns[5];
+            savingsAccount = columns[6];
+            moneyMarketFund = columns[7];
+            mutualFund = columns[8];
+            saved = columns[9];
+            Statement statement = new Statement(name, Double.valueOf(income), Double.valueOf(rent), Double.valueOf(utilities), Double.valueOf(other), Double.valueOf(moneyAfterPayments), Double.valueOf(savingsAccount), Double.valueOf(moneyMarketFund), Double.valueOf(mutualFund), Double.valueOf(saved),users.findFirstByUsername(username));
+            return new ResponseEntity<Statement>(statements.save(statement),HttpStatus.OK);
+        }
+        return new ResponseEntity<Statement>(HttpStatus.NO_CONTENT);
+    }
+
+    @RequestMapping(path = "/csv-export", method = RequestMethod.GET)
+    public ResponseEntity<List<Statement>> csvExport(HttpSession session) throws IOException {
+        String username = (String) session.getAttribute("username");
+        if (username == null) {
+            return new ResponseEntity<List<Statement>>(HttpStatus.FORBIDDEN);
+        }
+        File f = new File("exported-statement.csv");
+        FileWriter fw = new FileWriter(f);
+        fw.write(String.valueOf(statements.findByUserId(users.findFirstByUsername(username).getId())));
+        fw.close();
+        return new ResponseEntity<List<Statement>>(HttpStatus.OK);
     }
 }

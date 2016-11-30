@@ -4,6 +4,8 @@ import org.hibernate.annotations.Formula;
 
 import javax.persistence.*;
 
+import static java.lang.System.out;
+
 /**
  * Created by Troy on 11/17/16.
  */
@@ -65,6 +67,19 @@ public class Statement {
         this.mutualFund = mutualFund;
         this.saved = saved;
         this.user = user;
+    }
+
+    public Statement(String name, double income, double rent, double utilities, double other, double moneyAfterPayments, double savingsAccount, double moneyMarketFund, double mutualFund, double saved) {
+        this.name = name;
+        this.income = income;
+        this.rent = rent;
+        this.utilities = utilities;
+        this.other = other;
+        this.moneyAfterPayments = moneyAfterPayments;
+        this.savingsAccount = savingsAccount;
+        this.moneyMarketFund = moneyMarketFund;
+        this.mutualFund = mutualFund;
+        this.saved = saved;
     }
 
     public boolean isMetGoal() {
@@ -169,5 +184,23 @@ public class Statement {
 
     public void setSaved(double saved) {
         this.saved = saved;
+    }
+
+    @Override
+    public String toString() {
+        return "Statement{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", income=" + income +
+                ", rent=" + rent +
+                ", utilities=" + utilities +
+                ", other=" + other +
+                ", moneyAfterPayments=" + moneyAfterPayments +
+                ", savingsAccount=" + savingsAccount +
+                ", moneyMarketFund=" + moneyMarketFund +
+                ", mutualFund=" + mutualFund +
+                ", saved=" + saved +
+                ", user=" + user.username +
+                '}';
     }
 }
