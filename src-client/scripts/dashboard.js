@@ -1,0 +1,68 @@
+const React = require('react')
+const Backbone = require('backbone')
+const ACTIONS = require('./actions')
+const {StatementModel, StatementCollection} = require('./model-statements.js')
+
+const DashboardView = React.createClass({
+
+componentWillMount: function(){
+
+    ACTIONS.fetchUserStatements()
+ },
+
+ _routeToPayments: function(){
+   window.location.hash = 'budget-statement/new'
+},
+
+ render: function(){
+
+let statementListings = this.props.statements.map(function(mod, i){
+
+   return <Statement key={i} stmntData={mod}/>
+})
+
+   return(
+
+         <div className="multi-container">
+            <div className="btn-container col-sm-12 col-md-12">
+               <button className="btn btn-default" onClick={this._routeToPayments}>New Budget</button>
+            </div>
+               <h1 className="dash-header">Bread</h1>
+               <h2 className="dash-sub-header">Watch that dough rise</h2>
+               <hr/>
+               <div className="statements-container">
+                  <div className="row">
+                     {statementListings}
+                  </div>
+               <hr/>
+            </div>
+         </div>
+
+      )
+   }
+})
+
+let Statement = React.createClass({
+   render: function(){
+      return (
+         <div className="col-xs-6 col-md-4" >
+            <h4>Budget for: {this.props.stmntData.get('name')}</h4>
+            <h4>Goal: {this.props.stmntData.get('user').goal}</h4>
+            <h4>Money saved so far: {this.props.stmntData.get('saved')} </h4>
+
+            <div className="btn-container col-sm-12 col-md-12">
+               <input type="submit" className="new-btn" value="Toss this bread"/>
+            </div>
+         </div>
+         )
+      }
+   })
+
+module.exports = DashboardView
+
+
+
+
+      //<a href={"./#payments-page/"+data.id} className="anchor-to-single"></a>
+      // {data.attributes.goal}
+      // {data.attributes.moneyAfterPayments}
