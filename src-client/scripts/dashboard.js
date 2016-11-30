@@ -7,7 +7,7 @@ const DashboardView = React.createClass({
 
 componentWillMount: function(){
 
-    ACTIONS.fetchUserStatements()
+   //  ACTIONS.fetchUserStatements()
  },
 
  _routeToPayments: function(){
@@ -15,7 +15,7 @@ componentWillMount: function(){
 },
 
  render: function(){
-
+console.log("show me props",this.props);
 let statementListings = this.props.statements.map(function(mod, i){
 
    return <Statement key={i} stmntData={mod}/>

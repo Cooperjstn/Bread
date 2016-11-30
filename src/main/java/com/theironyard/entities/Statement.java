@@ -44,6 +44,9 @@ public class Statement {
     @Column
     double saved;
 
+    @Column
+    boolean metGoal;
+
     @ManyToOne
     User user;
 
@@ -62,6 +65,14 @@ public class Statement {
         this.mutualFund = mutualFund;
         this.saved = saved;
         this.user = user;
+    }
+
+    public boolean isMetGoal() {
+        return metGoal;
+    }
+
+    public void setMetGoal(boolean metGoal) {
+        this.metGoal = metGoal;
     }
 
     public String getName() {

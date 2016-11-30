@@ -1,5 +1,5 @@
 const Backbone = require('backbone')
-const {seed_userStatements} = require('./seed.js')
+//const {seed_userStatements} = require('./seed.js')
 
 const STORE = {
    _data:  {
@@ -7,7 +7,7 @@ const STORE = {
        currentData : [],
        singleListing: {}, //Backbone Model instance
        currentBudgetStatement: {},
-       userStatements: seed_userStatements.models
+       userStatements: [] //seed_userStatements.models
     },
 
    setStore: function(storeProp, payload){

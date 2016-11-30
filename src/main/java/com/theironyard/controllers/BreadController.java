@@ -1,5 +1,6 @@
 package com.theironyard.controllers;
 
+import com.fasterxml.jackson.databind.util.JSONWrappedObject;
 import com.theironyard.entities.Statement;
 import com.theironyard.entities.User;
 import com.theironyard.services.StatementRepository;
@@ -44,18 +45,18 @@ public class BreadController {
     public void init() throws SQLException, PasswordStorage.CannotPerformOperationException {
         h2 = Server.createWebServer().start();
         if (statements.count() == 0) {
-            User user = new User("Troy",PasswordStorage.createHash("pass123"),1000,true);
-            User user1 = new User("Jordan",PasswordStorage.createHash("pass123"),1000,true);
-            User user2 = new User("Justin",PasswordStorage.createHash("pass123"),1000,true);
-            User user3 = new User("Alice",PasswordStorage.createHash("pass123"),1000,false);
+            User user = new User("Troy", PasswordStorage.createHash("pass123"), 1000, true);
+            User user1 = new User("Jordan", PasswordStorage.createHash("pass123"), 1000, true);
+            User user2 = new User("Justin", PasswordStorage.createHash("pass123"), 1000, true);
+            User user3 = new User("Alice", PasswordStorage.createHash("pass123"), 1000, false);
             users.save(user);
             users.save(user1);
             users.save(user2);
             users.save(user3);
-            statements.save(new Statement("Vacation",2000,750,150,600,500,100,100,100,300,user));
-            statements.save(new Statement("College",2000,750,150,600,500,100,100,100,300,user1));
-            statements.save(new Statement("New Home",2000,750,150,600,500,100,100,100,300,user2));
-            statements.save(new Statement("New Car",1000,600,200,100,100,30,30,30,90,user3));
+            statements.save(new Statement("Vacation", 2000, 750, 150, 600, 500, 100, 100, 100, 300, user));
+            statements.save(new Statement("College", 2000, 750, 150, 600, 500, 100, 100, 100, 300, user1));
+            statements.save(new Statement("New Home", 2000, 750, 150, 600, 500, 100, 100, 100, 300, user2));
+            statements.save(new Statement("New Car", 1000, 600, 200, 100, 100, 30, 30, 30, 90, user3));
         }
     }
 
@@ -71,11 +72,10 @@ public class BreadController {
         User userFromDb = users.findFirstByUsername(user.getUsername());
         if (userFromDb == null) {
             return new ResponseEntity<User>(HttpStatus.NOT_FOUND);
-        }
-        else if (!PasswordStorage.verifyPassword(user.getPassword(), userFromDb.getPassword())) {
+        } else if (!PasswordStorage.verifyPassword(user.getPassword(), userFromDb.getPassword())) {
             return new ResponseEntity<>(HttpStatus.FORBIDDEN);
         }
-        if (user.getUsername() == null || user.getPassword() == null ) {
+        if (user.getUsername() == null || user.getPassword() == null) {
             return new ResponseEntity<User>(HttpStatus.NOT_ACCEPTABLE);
         }
         session.setAttribute("username", user.getUsername());
@@ -91,10 +91,10 @@ public class BreadController {
     //If you don't exist signup
     @RequestMapping(path = "/signup", method = RequestMethod.POST)
     public ResponseEntity<User> signUpPost(HttpSession session, @RequestBody User user) throws PasswordStorage.CannotPerformOperationException {
-        if (user.getUsername() == null || user.getPassword() == null ) {
+        if (user.getUsername() == null || user.getPassword() == null) {
             return new ResponseEntity<User>(HttpStatus.NOT_ACCEPTABLE);
         }
-        User userFromDb = new User (user.getUsername(),PasswordStorage.createHash(user.getPassword()),user.getGoal(),user.isAdmin());
+        User userFromDb = new User(user.getUsername(), PasswordStorage.createHash(user.getPassword()), user.getGoal(), user.isAdmin());
         users.save(userFromDb);
         session.setAttribute("username", userFromDb.getUsername());
         return new ResponseEntity<User>(userFromDb, HttpStatus.OK);
@@ -116,14 +116,14 @@ public class BreadController {
 
     //In this route you fill in income, rent, utilites, etc. and then it calculates money after payments
     @RequestMapping(path = "/payments", method = RequestMethod.POST)
-    public ResponseEntity<Statement> postPayments(HttpSession session, @RequestBody Statement statement,HttpServletResponse response) throws IOException {
+    public ResponseEntity<Statement> postPayments(HttpSession session, @RequestBody Statement statement, HttpServletResponse response) throws IOException {
         String username = (String) session.getAttribute("username");
         if (username == null) {
             return new ResponseEntity<Statement>(HttpStatus.FORBIDDEN);
         }
         statement.setUser(users.findFirstByUsername(username));
         statement.setMoneyAfterPayments(statement.getIncome() - (statement.getRent() + statement.getUtilities() + statement.getOther()));
-        return new ResponseEntity<Statement>(statements.save(statement),HttpStatus.OK);
+        return new ResponseEntity<Statement>(statements.save(statement), HttpStatus.OK);
     }
 
 
@@ -136,16 +136,15 @@ public class BreadController {
         }
         if (!users.findFirstByUsername(username).isAdmin()) {
             return new ResponseEntity<Iterable<Statement>>(HttpStatus.FORBIDDEN);
-        }
-        else if (users.findFirstByUsername(username).isAdmin()) {
-            return new ResponseEntity<Iterable<Statement>>(statements.findAll(),HttpStatus.OK);
+        } else if (users.findFirstByUsername(username).isAdmin()) {
+            return new ResponseEntity<Iterable<Statement>>(statements.findAll(), HttpStatus.OK);
         }
         return null;
     }
 
     //Only shows statements from logged in user
     @RequestMapping(path = "/statements", method = RequestMethod.GET)
-    public ResponseEntity<List<Statement>> getStatements(HttpSession session) throws Exception {
+    public ResponseEntity<List<Statement>> getStatements(HttpSession session, String name) throws Exception {
         String username = (String) session.getAttribute("username");
         if (username == null) {
             return new ResponseEntity<>(HttpStatus.FORBIDDEN);
@@ -164,7 +163,7 @@ public class BreadController {
         User user = users.findFirstByUsername(username);
         statement.setUser(user);
         Statement statementFromDb = statements.findOne(statement.getId());
-        saved = (statement.getMutualFund() + statement.getMutualFund()*0.01) + ((statement.getMoneyMarketFund() + statement.getMoneyMarketFund()*0.005) + (statement.getSavingsAccount() + statement.getSavingsAccount()*0.002));
+        saved = (statement.getMutualFund() + statement.getMutualFund() * 0.01) + ((statement.getMoneyMarketFund() + statement.getMoneyMarketFund() * 0.005) + (statement.getSavingsAccount() + statement.getSavingsAccount() * 0.002));
         statement.setName(statementFromDb.getName());
         statement.setIncome(statementFromDb.getIncome());
         statement.setRent(statementFromDb.getRent());
@@ -174,8 +173,7 @@ public class BreadController {
         statement.setSaved(saved + statementFromDb.getSaved());
         if (statementFromDb.getMoneyAfterPayments() < saved) { //statementFromDb.getMoneyMarketFund() < statement.getMutualFund() || statementFromDb.getMoneyAfterPayments() < statement.getSavingsAccount() || statementFromDb.getMoneyAfterPayments() < statement.getMoneyMarketFund() || statementFromDb.getMoneyAfterPayments() < statement.getSavingsAccount() + statement.getMutualFund() || statementFromDb.getMoneyAfterPayments() < statement.getSavingsAccount() + statement.getMoneyMarketFund() || statementFromDb.getMoneyAfterPayments() < statement.getMoneyMarketFund() + statement.getMutualFund() || statementFromDb.getMoneyAfterPayments() < statement.getMutualFund() + statement.getMoneyMarketFund() + statement.getSavingsAccount()) {
             return new ResponseEntity<Statement>(HttpStatus.FORBIDDEN);
-        }
-        else {
+        } else {
             return new ResponseEntity<Statement>(statements.save(statement), HttpStatus.OK);
         }
     }
@@ -196,7 +194,7 @@ public class BreadController {
         statement.setMoneyMarketFund(statementFromDb.getMoneyMarketFund());
         statement.setMutualFund(statementFromDb.getMutualFund());
         statement.setSaved(statementFromDb.getSaved());
-        return new ResponseEntity<Statement>(statements.save(statement),HttpStatus.OK);
+        return new ResponseEntity<Statement>(statements.save(statement), HttpStatus.OK);
     }
 
     //If a user wants to create new statements this route will delete their current statement
