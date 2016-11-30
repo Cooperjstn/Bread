@@ -25,11 +25,11 @@ const CreateView = React.createClass({
       <div className = "create-soft">
         <h1 className = "create-h1"> Create Profile </h1>
           <form className = "create-profile" onSubmit={this._handleLogin}>
-          <p>Username:</p>
+          <p className = "create-field" >Username:</p>
           <input className="create-text" name="username" ref={ 'username' }></input>
-          <p>Password:</p>
+          <p className = "create-field" >Password:</p>
           <input className="create-text" name="password" ref={ 'password' }></input>
-          <p>Financial Goal:</p>
+          <p className = "create-field" >Financial Goal:</p>
           <input className="create-text" name="goal" ref={ 'goal' }></input>
           <br></br>
           <div>

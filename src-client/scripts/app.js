@@ -5,26 +5,40 @@ const Backbone = require('backbone');
 const AppViewController = require('./view-controller.js')
 const LoginView = require('./login.js')
 const UserModel = require('./model-user.js')
-
 const CreateView = require('./create.js')
 const PaymentsView = require('./payments.js')
 const OopsView = require('./404.js')
 const SavingsView = require ('./savings.js')
+
+const DashboardView = require ('./dashboard.js')
+const AboutView = require ('./about.js')
 // const SavingsView = require('./savings.js')
+
 
 
 const AppRouter = Backbone.Router.extend({
   routes: {
+     "dashboard": "showDashboardView",
+    "about" : "showAboutView",
      "404": "showOopsView",
-    "savings": "showSavingsPage",
     "create" : "showCreatePage",
-    "payments-page": "showPayments",
-      "" : 'showLoginPage'
+    "new-payment" : "showNewPayments",
+    "budget-statement/new/investment-options": "showSavingsPage",
+    "budget-statement/new": "showPayments",
+    "" : 'showLoginPage'
     },
-
-   showOopsView: function(){
-      ReactDOM.render(<AppViewController routedFrom="OopsView"/>, document.querySelector('#app-container'))
+   showAboutView: function(){
+     ReactDOM.render(<AppViewController routedFrom="AboutView"/>, document.querySelector('#app-container'))
    },
+
+
+  showDashboardView: function(){
+    ReactDOM.render(<AppViewController routedFrom="DashboardView"/>, document.querySelector('#app-container'))
+ },
+
+  showOopsView: function(){
+    ReactDOM.render(<AppViewController routedFrom="OopsView"/>, document.querySelector('#app-container'))
+  },
 
   showSavingsPage: function(){
     ReactDOM.render(<AppViewController routedFrom="SavingsView"/>, document.querySelector('#app-container'))

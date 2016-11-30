@@ -1,9 +1,8 @@
-
 const React = require('react')
 const Backbone = require('backbone')
 const ACTIONS = require('./actions')
 
-const PaymentsView = React.createClass({
+const NewPaymentsView = React.createClass({
 
    _handlePaymentSubmission: function(evt){
    evt.preventDefault()
@@ -17,7 +16,7 @@ const PaymentsView = React.createClass({
       other: this.refs.other.value
    }
    console.log(newPaymentData)
-   ACTIONS.submitNewBudget(newPaymentData)
+   ACTIONS.submitNewPayments(newPaymentData)
 },
    render: function() {
       return (
