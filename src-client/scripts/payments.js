@@ -10,7 +10,7 @@ const PaymentsView = React.createClass({
    //console.log(this)
 
    let newPaymentData = {
-      budgetName: this.refs.name.value,
+      name: this.refs.name.value,
       income: this.refs.income.value,
       rent: this.refs.rent.value,
       utilities: this.refs.utilities.value,
