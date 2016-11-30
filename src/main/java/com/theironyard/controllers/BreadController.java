@@ -53,10 +53,10 @@ public class BreadController {
             users.save(user1);
             users.save(user2);
             users.save(user3);
-            statements.save(new Statement("Vacation", 2000, 750, 150, 600, 500, 100, 100, 100, 300, false, user));
-            statements.save(new Statement("College", 2000, 750, 150, 600, 500, 100, 100, 100, 300, false, user1));
-            statements.save(new Statement("New Home", 2000, 750, 150, 600, 500, 100, 100, 100, 300, false, user2));
-            statements.save(new Statement("New Car", 1000, 600, 200, 100, 100, 30, 30, 30, 90, false, user3));
+            statements.save(new Statement("Vacation", 2000, 750, 150, 600, 500, 100, 100, 100, 300, user));
+            statements.save(new Statement("College", 2000, 750, 150, 600, 500, 100, 100, 100, 300, user1));
+            statements.save(new Statement("New Home", 2000, 750, 150, 600, 500, 100, 100, 100, 300, user2));
+            statements.save(new Statement("New Car", 1000, 600, 200, 100, 100, 30, 30, 30, 90, user3));
         }
     }
 
@@ -146,17 +146,9 @@ public class BreadController {
     @RequestMapping(path = "/statements", method = RequestMethod.GET)
     public ResponseEntity<List<Statement>> getStatements(HttpSession session, String name) throws Exception {
         String username = (String) session.getAttribute("username");
-        Boolean metGoal = (Boolean) session.getAttribute("metGoal");
-        List<Statement> statementList;
         if (username == null) {
             return new ResponseEntity<>(HttpStatus.FORBIDDEN);
         }
-        if (name != null) {
-            statementList = statements.findByName(name);
-        } else {
-            statementList = statements.findByUserId(users.findFirstByUsername(username).getId());
-        }
-        session.setAttribute("statements", statementList);
         return new ResponseEntity<>(statements.findByUserId(users.findFirstByUsername(username).getId()), HttpStatus.OK);
     }
 
@@ -214,21 +206,5 @@ public class BreadController {
         }
         statement.setUser(users.findFirstByUsername(username));
         statements.delete(statement);
-    }
-
-
-    //Trying to get export and import CSV off the ground
-    public void exportCSV(HttpSession session, String name, double income, double rent, double utilities, double other, double moneyAfterPayments, double savingsAccount, double moneyMarketFund, double mutualFund, double saved, boolean metGoal, User user) throws Exception {
-        if (user == null) {
-            throw new Exception("Forbidden!");
-        }
-        JSONWrappedObject statementJSON;
-
-    }
-
-    public void importCSV(HttpSession session, String name, double income, double rent, double utilities, double other, double moneyAfterPayments, double savingsAccount, double moneyMarketFund, double mutualFund, double saved, boolean metGoal, User user) throws Exception {
-        if (user == null) {
-            throw new Exception("Forbidden!");
-        }
     }
 }

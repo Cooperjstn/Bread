@@ -53,7 +53,7 @@ public class Statement {
     public Statement() {
     }
 
-    public Statement(String name, double income, double rent, double utilities, double other, double moneyAfterPayments, double savingsAccount, double moneyMarketFund, double mutualFund, double saved, boolean metGoal, User user) {
+    public Statement(String name, double income, double rent, double utilities, double other, double moneyAfterPayments, double savingsAccount, double moneyMarketFund, double mutualFund, double saved, User user) {
         this.name = name;
         this.income = income;
         this.rent = rent;
@@ -64,7 +64,6 @@ public class Statement {
         this.moneyMarketFund = moneyMarketFund;
         this.mutualFund = mutualFund;
         this.saved = saved;
-        this.metGoal = metGoal;
         this.user = user;
     }
 
