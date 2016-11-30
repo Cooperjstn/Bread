@@ -15,7 +15,7 @@ const SavingsView = React.createClass({
     console.log('formData', formData);
 
 
-  },
+},
 
   componentWillMount: function(){
 

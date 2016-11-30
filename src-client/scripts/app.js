@@ -9,12 +9,17 @@ const CreateView = require('./create.js')
 const PaymentsView = require('./payments.js')
 const OopsView = require('./404.js')
 const SavingsView = require ('./savings.js')
+
 const DashboardView = require ('./dashboard.js')
+const AboutView = require ('./about.js')
+// const SavingsView = require('./savings.js')
+
 
 
 const AppRouter = Backbone.Router.extend({
   routes: {
      "dashboard": "showDashboardView",
+    "about" : "showAboutView",
      "404": "showOopsView",
     "create" : "showCreatePage",
     "new-payment" : "showNewPayments",
@@ -22,6 +27,10 @@ const AppRouter = Backbone.Router.extend({
     "budget-statement/new": "showPayments",
     "" : 'showLoginPage'
     },
+   showAboutView: function(){
+     ReactDOM.render(<AppViewController routedFrom="AboutView"/>, document.querySelector('#app-container'))
+   },
+
 
   showDashboardView: function(){
     ReactDOM.render(<AppViewController routedFrom="DashboardView"/>, document.querySelector('#app-container'))
