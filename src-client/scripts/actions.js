@@ -4,6 +4,7 @@ const UserModel = require('./model-user.js')
 const PaymentModel = require('./model-payments.js')
 const OopsView = require('./404.js')
 const SaveModel = require('./savings-model.js')
+const AboutView = require ('./about.js')
 const {StatementModel, StatementCollection} = require('./model-statements.js')
 
 const {seed_userStatements} = require('./seed.js')
@@ -82,9 +83,15 @@ const ACTIONS = {
       // savMod.set(formData)
       // savMod.set(STORE.getStoreData().currentBudgetStatement.toJSON() )
       //~~~~~~~
+<<<<<<< HEAD
+
+      STORE.setStore('userStatements', [ ...STORE.getStoreData().userStatements, savMod ] )
+      window.location.hash = "/dashboard"
+=======
       //
       // STORE.setStore('userStatements', [ ...STORE.getStoreData().userStatements, savMod ] )
       // window.location.hash = "/dashboard"
+>>>>>>> a149d35e7b21d969b254241bc91e375664551265
     },
 
 

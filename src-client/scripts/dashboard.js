@@ -47,7 +47,7 @@ let Statement = React.createClass({
       return (
          <div className="col-xs-6 col-md-4" >
             <h4>Budget for: {this.props.stmntData.get('name')}</h4>
-            <h4>Goal: {this.props.stmntData.get('user').goal}</h4>
+            <h4>Goal: 100 </h4>
             <h4>Money saved so far: {this.props.stmntData.get('saved')} </h4>
 
             <div className="btn-container col-sm-12 col-md-12">

@@ -36,7 +36,7 @@ body{
 	width: 60%;
 	text-align: center;
 	margin: auto;
-	margin-top: 4%;
+	margin-top: 1%;
 	background:	rgba(187, 232, 234,0.7);
 	border-radius: 10px;
 }
@@ -204,6 +204,7 @@ margin: auto;
 	text-align: center;
 	text-decoration-color: #FFFFFF;
 	color: #FFF;
+	font-size: 100px;
 }
 .create-profile {
 	font-family: 'Roboto', sans-serif;
@@ -226,8 +227,10 @@ margin: auto;
 
 .create-field {
 	font-family: 'Roboto', sans-serif;
-	font-size: 12px;
+	font-size: 25px;
 	font-weight: bold;
+	margin-top: 10px;
+	color: white;
 }
 .create-btn {
 	background-color: #7C4DFF;
@@ -249,4 +252,127 @@ margin: auto;
 }
 .create-btn:focus {
 	outline: none;
+}
+
+.auth-container-row {
+	width: 60%;
+	text-align: center;
+	margin: auto;
+	margin-top: 4%;
+	background:	rgba(244,179,80,0.7);
+	border-radius: 10px;
+	padding-bottom: 10px;
+}
+.income-label {
+	font-size: 20px;
+}
+
+.payment-inputs {
+	font-family: 'Roboto', sans-serif;
+	font-style: bold;
+	padding: 10px;
+  border: none;
+  border-bottom:  solid 2px #c9c9c9;
+  transition: border 0.3s;
+	border-radius: 5px;
+
+}
+
+.payment-inputs:focus {
+	outline: none;
+	border-bottom: solid 2px #969696;
+}
+
+.btn-default {
+	background-color: #6acdcc;
+	border-radius: 5px;
+	border: none;
+	color: white;
+	padding: 15px 32px;
+	text-align: center;
+	margin-top: 10px;
+	text-decoration: none;
+	display: inline-block;
+	font-size: 16px;
+	-webkit-transition-duration: 0.4s;
+    transition-duration: 0.4s;
+
+}
+
+.btn-default :hover {
+	background-color: #FFF;
+	color:#6acdcc;
+}
+.center {
+	margin: auto;
+}
+.multi-container {
+	width: 60%;
+	text-align: center;
+	margin: auto;
+	margin-top: 4%;
+	background:	rgba(190,144,212,0.7);
+	border-radius: 10px;
+	padding-bottom: 10px;
+	color: white;
+}
+.new-btn {
+	background-color: #7C4DFF;
+	border-radius: 5px;
+	border: none;
+	// color: white;
+	padding: 15px 32px;
+	text-align: center;
+	margin-top: 10px;
+	text-decoration: none;
+	display: inline-block;
+	font-size: 16px;
+	-webkit-transition-duration: 0.4s;
+    transition-duration: 0.4s;
+
+}
+
+.sav-text {
+	font-family: 'Roboto', sans-serif;
+	font-style: bold;
+	padding: 10px;
+  border: none;
+  border-bottom:  solid 2px #c9c9c9;
+  transition: border 0.3s;
+	border-radius: 5px;
+	color: black;
+}
+
+.sav-text:focus {
+	outline: none;
+	border-bottom: solid 2px #969696;
+}
+.savings-field {
+	width: 60%;
+	text-align: center;
+	margin: auto;
+	margin-top: 4%;
+	background:	rgba(133,166,215,0.7);
+	border-radius: 10px;
+	padding-bottom: 10px;
+	color: white;
+}
+
+.abt {
+	width: 60%;
+	text-align: center;
+	margin: auto;
+	margin-top: 5%;
+	background-color: rgba(217,30,24,0.7);
+	border-radius: 10px;
+	color: #fff;
+	height:60%;
+}
+
+.abtimage {
+	max-width: 75%;
+    height: auto;
+		-webkit-filter: drop-shadow(5px 5px 5px #222);
+  filter: drop-shadow(5px 5px 5px #222);
+	margin: auto;
 }

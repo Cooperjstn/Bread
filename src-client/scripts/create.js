@@ -23,7 +23,7 @@ const CreateView = React.createClass({
   render: function (){
     return (
       <div className = "create-soft">
-        <h1 className = "create-h1"> Create Profile </h1>
+        <p className = "create-h1"> Create Profile </p>
           <form className = "create-profile" onSubmit={this._handleLogin}>
           <p className = "create-field" >Username:</p>
           <input className="create-text" name="username" ref={ 'username' }></input>
