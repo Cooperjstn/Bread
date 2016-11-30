@@ -15,28 +15,37 @@ const SavingsView = React.createClass({
     console.log('formData', formData);
 
 
-  },
+},
+
+  componentWillMount: function(){
+
+
+      ACTIONS.fetchUserStatements()
+   },
 
 
   render: function (){
     return (
       <div className = "savings-field">
-        <h1 className = "sav-h1"> Saving Options </h1>
-          <form className = "sav-form">
-          <p>Savings Account:</p>
+        <h1 className = "sav-h1"> Available money after bills </h1>
+         <h2 className="bg-success">{this.props.currentBudgetRecord.get('moneyAfterPayments')}</h2>
+         <form className = "sav-form">
+            <p>Savings Account:</p>
 
-          <input className="sav-text" name="savings-acct" ref={ 'savingsAcct' }></input>
-          <p>Money Market:</p>
+            <p className="money-saved"></p>
 
-          <input className="sav-text" name="money-market" ref={ 'moneyMarket' }></input>
-          <p>Mutual Fund:</p>
+            <input className="sav-text" name="savings-acct" ref={ 'savingsAcct' }></input>
+            <p>Money Market:</p>
 
-          <input className="sav-text" name="mutual-fund" ref={ 'mutualFund' }></input>
-          <br></br>
-          <div>
-          <button className='button create-btn' onClick={this._submitForm}>Submit</button>
-              </div>
-                  </form>
+            <input className="sav-text" name="money-market" ref={ 'moneyMarket' }></input>
+            <p>Mutual Fund:</p>
+
+            <input className="sav-text" name="mutual-fund" ref={ 'mutualFund' }></input>
+            <br></br>
+            <div>
+            <button className='button create-btn' onClick={this._submitForm}>Submit</button>
+          </div>
+         </form>
         </div>
       )}
 }

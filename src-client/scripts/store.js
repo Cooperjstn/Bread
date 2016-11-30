@@ -1,11 +1,13 @@
 const Backbone = require('backbone')
-const ACTIONS = require('./actions.js')
+const {seed_userStatements} = require('./seed.js')
 
 const STORE = {
    _data:  {
        currentViewSetting : '',
        currentData : [],
-       singleListing: {} //Backbone Model instance
+       singleListing: {}, //Backbone Model instance
+       currentBudgetStatement: {},
+       userStatements: seed_userStatements.models
     },
 
    setStore: function(storeProp, payload){
