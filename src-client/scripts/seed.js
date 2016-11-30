@@ -24,7 +24,7 @@ let seed_userStatements = [
    },
    {
       "id":2,
-      "name":"Vacation",
+      "name":"Rainy Day",
       "income":2000.0,
       "rent":750.0,
       "utilities":250.0,

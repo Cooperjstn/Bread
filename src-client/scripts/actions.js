@@ -77,12 +77,12 @@ const ACTIONS = {
       //  })
 
       //MOCK DATA~~~
-      savMod.set(formData)
-      savMod.set(STORE.getStoreData().currentBudgetStatement.toJSON() )
+      // savMod.set(formData)
+      // savMod.set(STORE.getStoreData().currentBudgetStatement.toJSON() )
       //~~~~~~~
 
       STORE.setStore('userStatements', [ ...STORE.getStoreData().userStatements, savMod ] )
-      window.location.hash = "dashboard"
+      window.location.hash = "/dashboard"
     },
 
 

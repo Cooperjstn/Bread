@@ -28,7 +28,7 @@ const SavingsView = React.createClass({
     return (
       <div className = "savings-field">
         <h1 className = "sav-h1"> Available money after bills </h1>
-         <h2 className="bg-success">{this.props.currentBudgetRecord.get('moneyAfterPayments')}</h2>
+          <h2 className = "hardcode">200</h2>
          <form className = "sav-form">
             <p>Savings Account:</p>
 
