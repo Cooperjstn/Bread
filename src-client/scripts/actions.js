@@ -4,6 +4,7 @@ const UserModel = require('./model-user.js')
 const PaymentModel = require('./model-payments.js')
 const OopsView = require('./404.js')
 const SaveModel = require('./savings-model.js')
+const AboutView = require ('./about.js')
 const {StatementModel, StatementCollection} = require('./model-statements.js')
 
 const {seed_userStatements} = require('./seed.js')

@@ -7,6 +7,7 @@ const PaymentsView = require ('./payments.js')
 const SavingsView = require ('./savings.js')
 const DashboardView = require ('./dashboard.js')
 const CreateView = require('./create.js')
+const AboutView = require ('./about.js')
 
 
 const AppViewController = React.createClass({
@@ -54,6 +55,10 @@ const AppViewController = React.createClass({
 
          case "OopsView":
             return <OopsView/>
+            break;
+
+         case "AboutView":
+            return <AboutView/>
             break;
       }
    }
