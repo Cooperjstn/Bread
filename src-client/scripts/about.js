@@ -17,7 +17,7 @@ const AboutView = React.createClass ({
           to learn how to budget, plan, and create new financial goals in a very simple, user friendly
           interface. We hope that this app will be the beginning of a new, solid financial future for you.
 
-          Now let's fire up that oven. </p>
+          <a href = "#create"> Now let's fire up that oven.</a> </p>
           </div>
           </div>
   )}

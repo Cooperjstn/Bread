@@ -68,10 +68,10 @@ const SavingsView = React.createClass({
             <p className="money-saved"></p>
 
             <input className="sav-text" name="savings-acct" ref={ 'savingsAcct' } data-id={prevModId}></input>
-            <p>Money Market:</p>
+            <p className="money-saved">Money Market:</p>
 
             <input className="sav-text" name="money-market" ref={ 'moneyMarket' }></input>
-            <p>Mutual Fund:</p>
+            <p className="money-saved">Mutual Fund:</p>
 
             <input className="sav-text" name="mutual-fund" ref={ 'mutualFund' }></input>
             <br></br>

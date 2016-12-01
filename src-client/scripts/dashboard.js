@@ -27,8 +27,8 @@ let statementListings = this.props.statements.map(function(mod, i){
             <div className="btn-container col-sm-12 col-md-12">
                <button className="btn btn-default" onClick={this._routeToPayments}>New Budget</button>
             </div>
-               <h1 className="dash-header">Bread</h1>
-               <h2 className="dash-sub-header">Watch that dough rise</h2>
+               <img className="dashlogo" src="../images/logo2.png" alt="image"></img>
+               <h2 className="dash-sub-header">Watch That Dough Rise: </h2>
                <hr/>
                <div className="statements-container">
                   <div className="row">
@@ -46,9 +46,9 @@ let Statement = React.createClass({
    render: function(){
       return (
          <div className="col-xs-6 col-md-4" >
-            <h4>Budget for: {this.props.stmntData.get('name')}</h4>
-            <h4>Goal: 100 </h4>
-            <h4>Money saved so far: {this.props.stmntData.get('saved')} </h4>
+            <p className ="dash">Budget for: {this.props.stmntData.get('name')}</p>
+            <p className ="dash">Goal: {this.props.stmntData.get('user').goal} </p>
+            <p className ="dash">Money saved so far: $201.05 </p>
 
             <div className="btn-container col-sm-12 col-md-12">
                <input type="submit" className="new-btn" value="Toss this bread"/>
@@ -59,6 +59,7 @@ let Statement = React.createClass({
    })
 
 module.exports = DashboardView
+
 
 
 
