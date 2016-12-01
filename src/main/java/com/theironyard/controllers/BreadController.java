@@ -12,11 +12,8 @@ import com.theironyard.entities.User;
 import com.theironyard.services.StatementRepository;
 import com.theironyard.services.UserRepository;
 import com.theironyard.utilities.PasswordStorage;
-import net.minidev.json.JSONArray;
-import net.minidev.json.JSONObject;
 import org.h2.store.fs.FileUtils;
 import org.h2.tools.Server;
-import org.json.CDL;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -224,7 +221,7 @@ public class BreadController {
     }
 
 
-    //Have the import working. Kind of clunky of course you have to name the csv file statement and has to be in a specific format
+    //Have the import working. Kind of clunky of course you have to name the csv file statement.csv and has to be in a specific format
     @RequestMapping(path = "/csv-import", method = RequestMethod.POST)
     public ResponseEntity<Statement> csvImport(HttpSession session,String name, String income, String rent, String utilities, String other, String moneyAfterPayments, String savingsAccount, String moneyMarketFund, String mutualFund, String saved) throws IOException {
         String username = (String) session.getAttribute("username");
@@ -253,6 +250,7 @@ public class BreadController {
         return new ResponseEntity<Statement>(HttpStatus.NO_CONTENT);
     }
 
+    //Not formatting the csv file correctly still have to work on it
     @RequestMapping(path = "/csv-export", method = RequestMethod.GET)
     public ResponseEntity<List<Statement>> csvExport(HttpSession session) throws IOException {
         String username = (String) session.getAttribute("username");
