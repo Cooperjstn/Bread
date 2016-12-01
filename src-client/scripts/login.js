@@ -6,7 +6,7 @@ const LoginView = React.createClass({
 
    _handleUserAuth: function(evt){
       evt.preventDefault()
-      console.log(this);
+      //console.log(this);
 
 
       let newUserData = {

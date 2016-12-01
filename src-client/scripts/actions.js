@@ -84,25 +84,28 @@ const ACTIONS = {
       // savMod.set(STORE.getStoreData().currentBudgetStatement.toJSON() )
       //~~~~~~~
 
-
       STORE.setStore('userStatements', [ ...STORE.getStoreData().userStatements, savMod ] )
       window.location.hash = "/dashboard"
+
+      //
+      // STORE.setStore('userStatements', [ ...STORE.getStoreData().userStatements, savMod ] )
+      // window.location.hash = "/dashboard"
 
     },
 
 
   fetchUserStatements: function(){
-     console.log('store',STORE);
+     //console.log('store',STORE);
     let statementColl = new StatementCollection()
 
 
     statementColl.url = '/statements'
 
-    console.log("?????", seed_userStatements.models)
+    //console.log("?????", seed_userStatements.models)
     statementColl.fetch().then(function(){
 
       STORE.setStore('userStatements', statementColl.models)
-      console.log('state coll', statementColl)
+      //console.log('state coll', statementColl)
      })
 
    }

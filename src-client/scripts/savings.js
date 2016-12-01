@@ -60,7 +60,7 @@ const SavingsView = React.createClass({
 
     return (
       <div className = "savings-field">
-        <h1 className = "sav-h1"> Available Money After Bills </h1>
+        <h1 className = "sav-h1"> Available money after bills </h1>
             { moneyAfterPayments }
          <form className = "sav-form">
             <p>Savings Account:</p>

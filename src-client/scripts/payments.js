@@ -60,7 +60,6 @@ const PaymentsView = React.createClass({
                      </div>
                   </div>
                </form>
-
             </div>
 
       )

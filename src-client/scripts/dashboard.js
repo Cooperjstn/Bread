@@ -47,8 +47,8 @@ let Statement = React.createClass({
       return (
          <div className="col-xs-6 col-md-4" >
             <p className ="dash">Budget for: {this.props.stmntData.get('name')}</p>
-            <p className ="dash">Goal: 100 </p>
-            <p className ="dash">Money saved so far: {this.props.stmntData.get('saved')} </p>
+            <p className ="dash">Goal: {this.props.stmntData.get('user').goal} </p>
+            <p className ="dash">Money saved so far: $201.05 </p>
 
             <div className="btn-container col-sm-12 col-md-12">
                <input type="submit" className="new-btn" value="Toss this bread"/>
