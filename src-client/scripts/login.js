@@ -53,7 +53,7 @@ const LoginView = React.createClass({
                  </div>
 
                  <div className= "create-about">
-                   <button className="button-about"><span>About Our Bread</span></button>
+                   <a href="#about"><button className="button-about"><span>About Our Bread</span></button></a>
                  </div>
             </div>
           </div>

@@ -7,6 +7,7 @@ const PaymentsView = require ('./payments.js')
 const SavingsView = require ('./savings.js')
 const DashboardView = require ('./dashboard.js')
 const CreateView = require('./create.js')
+const AboutView = require ('./about.js')
 
 
 const AppViewController = React.createClass({
@@ -21,6 +22,8 @@ const AppViewController = React.createClass({
 
    componentDidMount: function(){
       let self = this
+      ACTIONS.fetchUserStatements()
+
       STORE.onChange(function(){
 
          let updatedState = STORE.getStoreData()
@@ -45,7 +48,7 @@ const AppViewController = React.createClass({
             break;
 
         case "SavingsView":
-            return <SavingsView currentBudgetRecord = {this.state.currentBudgetStatement}/>
+            return <SavingsView statements = {this.state.userStatements}/>
             break;
 
          case "PaymentsView":
@@ -54,6 +57,10 @@ const AppViewController = React.createClass({
 
          case "OopsView":
             return <OopsView/>
+            break;
+
+         case "AboutView":
+            return <AboutView/>
             break;
       }
    }

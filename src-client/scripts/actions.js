@@ -4,6 +4,7 @@ const UserModel = require('./model-user.js')
 const PaymentModel = require('./model-payments.js')
 const OopsView = require('./404.js')
 const SaveModel = require('./savings-model.js')
+const AboutView = require ('./about.js')
 const {StatementModel, StatementCollection} = require('./model-statements.js')
 
 const {seed_userStatements} = require('./seed.js')
@@ -27,6 +28,7 @@ const ACTIONS = {
    createNewUser: function(newUserData){
      let userMod = new UserModel()
      userMod.set(newUserData)
+
      userMod.url = '/signup'
 
      userMod.save().then(function(){
@@ -38,26 +40,27 @@ const ACTIONS = {
    let payMod = new PaymentModel()
 
    payMod.set(newPaymentData)
+
    console.log('pay mod', payMod)
    payMod.url = '/payments'
 
-   // payMod.save().then(function(){
-   //    window.location.hash = "/savings"
-   // })
+   payMod.save().then(function(){
+      window.location.hash = "budget-statement/new/investment-options"
+   })
 
    //mock data~~~~
-   payMod.set({
-      id: Math.floor(Date.now() / 1000),
-      name: payMod.get('budgetName'),
-      moneyAfterPayments: payMod.get("income") -payMod.get('rent') - payMod.get('other') - payMod.get('utilities'),
-      user:{
-         "id":1,
-         "username":"Troy",
-         "password":"sha1:64000:18:qqg7ZaLDUknJ6pHbb7pSTcmFw99GZomX:zTBeUju6YgDKNgywpC8TSvj8",
-         "goal":1000.0,
-         "admin":true
-      }
-   })
+   // payMod.set({
+   //    id: Math.floor(Date.now() / 1000),
+   //    name: payMod.get('budgetName'),
+   //    moneyAfterPayments: payMod.get("income") -payMod.get('rent') - payMod.get('other') - payMod.get('utilities'),
+   //    user:{
+   //       "id":1,
+   //       "username":"Troy",
+   //       "password":"sha1:64000:18:qqg7ZaLDUknJ6pHbb7pSTcmFw99GZomX:zTBeUju6YgDKNgywpC8TSvj8",
+   //       "goal":1000.0,
+   //       "admin":true
+   //    }
+   // })
    //~~~~~~~
 
 
@@ -72,31 +75,35 @@ const ACTIONS = {
        savMod.set(formData)
        savMod.url = "/savings"
 
-      //  savMod.save().then(function(){
-      //    window.location.hash = "/savings"
-      //  })
+       savMod.save({}, {type: 'PUT'}).then(function(){
+         window.location.hash = "/dashboard"
+       })
 
       //MOCK DATA~~~
-      savMod.set(formData)
-      savMod.set(STORE.getStoreData().currentBudgetStatement.toJSON() )
+      // savMod.set(formData)
+      // savMod.set(STORE.getStoreData().currentBudgetStatement.toJSON() )
       //~~~~~~~
 
+
       STORE.setStore('userStatements', [ ...STORE.getStoreData().userStatements, savMod ] )
-      window.location.hash = "dashboard"
+      window.location.hash = "/dashboard"
+
     },
 
 
-  fetchUserStatements: function(userStatement){
+  fetchUserStatements: function(){
      console.log('store',STORE);
     let statementColl = new StatementCollection()
 
-    statementColl.set()
+
     statementColl.url = '/statements'
 
     console.log("?????", seed_userStatements.models)
-   //  statementColl.fetch().then(function(){
-   //    console.log('state coll', statementColl)
-   //   })
+    statementColl.fetch().then(function(){
+
+      STORE.setStore('userStatements', statementColl.models)
+      console.log('state coll', statementColl)
+     })
 
    }
  }
