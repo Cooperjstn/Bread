@@ -53,7 +53,7 @@ const SavingsView = React.createClass({
              return mod.get('id') === prevModId
           })
 
-           return <h2 key={i} className="bg-success">{modelWithHighestId[0].get('moneyAfterPayments')}</h2>
+           return <h2 key={i} className="money-bar">{modelWithHighestId[0].get('moneyAfterPayments')}</h2>
         }
 
      })
