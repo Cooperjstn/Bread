@@ -83,15 +83,11 @@ const ACTIONS = {
       // savMod.set(formData)
       // savMod.set(STORE.getStoreData().currentBudgetStatement.toJSON() )
       //~~~~~~~
-<<<<<<< HEAD
+
 
       STORE.setStore('userStatements', [ ...STORE.getStoreData().userStatements, savMod ] )
       window.location.hash = "/dashboard"
-=======
-      //
-      // STORE.setStore('userStatements', [ ...STORE.getStoreData().userStatements, savMod ] )
-      // window.location.hash = "/dashboard"
->>>>>>> a149d35e7b21d969b254241bc91e375664551265
+
     },
 
 
