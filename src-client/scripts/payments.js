@@ -60,10 +60,6 @@ const PaymentsView = React.createClass({
                      </div>
                   </div>
                </form>
-
-               <div className="form-field btn-container  col-sm-12 col-md-12 center">
-                  <input type="submit" className="btn btn-default" value="Statements page" />
-               </div>
             </div>
 
       )
